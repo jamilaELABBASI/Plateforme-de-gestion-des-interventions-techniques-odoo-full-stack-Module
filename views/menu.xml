@@ -1,0 +1,13 @@
+<odoo>
+    <menuitem
+            id="menu_intervention_root"
+            name="Gestion des interventions"
+    />
+
+    <menuitem
+        id="menu_intervention"
+        name="Interventions"
+        action="action_intervention"
+        parent="menu_intervention_root"
+    />
+</odoo>

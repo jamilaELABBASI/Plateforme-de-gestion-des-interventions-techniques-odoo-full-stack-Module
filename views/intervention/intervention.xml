@@ -1,0 +1,52 @@
+<odoo>
+
+    <record id="intervention_list" model="ir.ui.view">
+        <field name="name">intervention.list</field>
+        <field name="model">intervention</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="date_demande"/>
+                <field name="date_intervention"/>
+                <field name="statut"/>
+                <field name="priorite"/>
+                <field name="technicien_id"/>
+                <field name="rapport"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="intervention_form" model="ir.ui.view">
+        <field name="name">intervention.form</field>
+        <field name="model">intervention</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="priorite"/>
+                        <field name="statut"/>
+                    </group>
+
+                    <group string="Gestion">
+                        <field name="technicien_id"/>
+                        <field name="client_id"/>
+                        <field name="date_intervention"/>
+                        <field name="date_demande"/>
+                    </group>
+
+                    <group string="Suivi technicien">
+                        <field name="rapport"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+</odoo>
