@@ -10,4 +10,11 @@
         action="action_intervention"
         parent="menu_intervention_root"
     />
+
+    <menuitem
+        id="menu_technicien"
+        name="Techniciens"
+        action="action_technicien"
+        parent="menu_intervention_root"
+    />
 </odoo>

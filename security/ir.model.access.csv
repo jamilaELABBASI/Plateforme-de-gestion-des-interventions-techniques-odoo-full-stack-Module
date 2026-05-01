@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_intervention,access_intervention,model_intervention,base.group_user,1,1,1,1
+access_technicien,access_technicien,model_technicien,base.group_user,1,1,1,1
+access_competence,access_competence,model_competence,base.group_user,1,1,1,1

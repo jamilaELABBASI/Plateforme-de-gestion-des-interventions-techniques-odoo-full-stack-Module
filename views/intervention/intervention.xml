@@ -12,6 +12,7 @@
                 <field name="statut"/>
                 <field name="priorite"/>
                 <field name="technicien_id"/>
+                <field name="client_id"/>
                 <field name="rapport"/>
             </list>
         </field>
@@ -21,14 +22,20 @@
         <field name="name">intervention.form</field>
         <field name="model">intervention</field>
         <field name="arch" type="xml">
-            <form>
+            <form class="form">
                 <sheet>
-
-                    <group>
+                    <button class="oe_button_box" name="statut_encours" string="Demarer" type="object"/>
+                    <button class="oe_button_box" name="statut_terminee" string="terminer" type="object"/>
+                    <group string="Information">
+<!--                        <label for="name"/>-->
                         <field name="name"/>
+<!--                        <label for="description"/>-->
                         <field name="description"/>
+<!--                        <label for="priorite"/>-->
                         <field name="priorite"/>
-                        <field name="statut"/>
+<!--                        <label for="statut"/>-->
+                        <field name="statut" widget="statusbar"/>
+
                     </group>
 
                     <group string="Gestion">
@@ -38,8 +45,8 @@
                         <field name="date_demande"/>
                     </group>
 
-                    <group string="Suivi technicien">
-                        <field name="rapport"/>
+                    <group string="Suivi technicien" invisible="statut != 'terminee'">
+                        <field name="rapport" required="statut == 'terminee'"/>
                     </group>
 
                 </sheet>

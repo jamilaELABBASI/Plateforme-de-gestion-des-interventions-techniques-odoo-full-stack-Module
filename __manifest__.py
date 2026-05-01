@@ -19,11 +19,19 @@ Long description of module's purpose
     # any module necessary for this one to work correctly
     'depends': ['base'],
 
+    'assets': {
+        'web.assets_backend': [
+            'intervention_management/static/src/css/intervention.css',
+        ],
+    },
+
     # always loaded
     'data': [
         'security/ir.model.access.csv',
         'views/intervention/intervention_actions.xml',
         'views/intervention/intervention.xml',
+        'views/technicien/technicien.xml',
+        'views/technicien/technicien_actions.xml',
         'views/menu.xml',
     ],
     'installable': True,
