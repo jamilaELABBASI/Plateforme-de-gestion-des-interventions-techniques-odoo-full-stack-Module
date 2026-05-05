@@ -1,7 +1,47 @@
-.form{
-
-    margin:auto;
-    text-align: left;
-    flex-direction: column;
+.form_intervention{
+    margin: 10px auto;
+    width: 800px;
     display: flex;
+    padding-bottom: 10px;
 }
+
+.center_group_title{
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.center_group_title:hover{
+    background-color: #f1f1f1;
+}
+
+
+.button{
+    border-radius: 10px;
+    background-color: #0d76a8;
+    color: white;
+    margin: 10px;
+}
+
+
+.button:hover{
+    background-color:  #67a6bd;
+    color: white;
+    border:solid  #67a6bd;
+}
+
+.o_arrow_button[data-value="terminee"],
+.o_arrow_button[data-value="en_cours"],
+.o_arrow_button[data-value="nouveau"] {
+    background-color: #67a6bd !important;
+    color: white !important;
+}
+
+.o_statusbar_status .o_arrow_button.o_arrow_button_current {
+    background-color: #0d76a8 !important;
+    color: white !important;
+}
+
+
+
+
+

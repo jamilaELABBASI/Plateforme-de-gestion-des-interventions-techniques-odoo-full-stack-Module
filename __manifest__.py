@@ -28,6 +28,7 @@ Long description of module's purpose
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'views/intervention/intervention_search.xml',
         'views/intervention/intervention_actions.xml',
         'views/intervention/intervention.xml',
         'views/technicien/technicien.xml',

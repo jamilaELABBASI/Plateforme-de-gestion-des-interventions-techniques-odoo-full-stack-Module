@@ -4,6 +4,7 @@
         <field name="name">intervention.list</field>
         <field name="model">intervention</field>
         <field name="arch" type="xml">
+
             <list>
                 <field name="name"/>
                 <field name="description"/>
@@ -22,30 +23,27 @@
         <field name="name">intervention.form</field>
         <field name="model">intervention</field>
         <field name="arch" type="xml">
-            <form class="form">
+            <form class="form_intervention">
+                <header>
+                    <button class="button" name="statut_encours" string="Démarrer" type="object"/>
+                    <button class="button" name="statut_terminee" string="Terminer" type="object"/>
+                </header>
                 <sheet>
-                    <button class="oe_button_box" name="statut_encours" string="Demarer" type="object"/>
-                    <button class="oe_button_box" name="statut_terminee" string="terminer" type="object"/>
-                    <group string="Information">
-<!--                        <label for="name"/>-->
+                    <group string="Information" class="center_group_title" >
                         <field name="name"/>
-<!--                        <label for="description"/>-->
                         <field name="description"/>
-<!--                        <label for="priorite"/>-->
                         <field name="priorite"/>
-<!--                        <label for="statut"/>-->
-                        <field name="statut" widget="statusbar"/>
-
+                         <field name="statut"  widget="statusbar"/>
                     </group>
 
-                    <group string="Gestion">
+                    <group string="Gestion" class="center_group_title">
                         <field name="technicien_id"/>
                         <field name="client_id"/>
                         <field name="date_intervention"/>
                         <field name="date_demande"/>
                     </group>
 
-                    <group string="Suivi technicien" invisible="statut != 'terminee'">
+                    <group string="Suivi technicien" class="center_group_title" invisible="statut != 'terminee'">
                         <field name="rapport" required="statut == 'terminee'"/>
                     </group>
 

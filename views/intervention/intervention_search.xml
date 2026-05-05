@@ -1,0 +1,36 @@
+<odoo>
+    <record id="intervention_search" model="ir.ui.view">
+        <field name="name">intervention.search</field>
+        <field name="model">intervention</field>
+        <field name="arch" type="xml">
+
+            <search>
+
+            <!-- Champs de recherche -->
+            <field name="name" string="Nom"/>
+            <field name="technicien_id"/>
+            <field name="client_id"/>
+
+            <!-- Filtres -->
+            <separator/>
+
+            <filter name="filter_nouveau"
+                    string="Nouveau"
+                    domain="[('statut','=','nouveau')]"/>
+
+            <filter name="filter_encours"
+                    string="En cours"
+                    domain="[('statut','=','en_cours')]"/>
+
+            <filter name="filter_terminee"
+                    string="Terminee"
+                    domain="[('statut','=','terminee')]"/>
+
+            <filter name="filter_today"
+                    string="Aujourd hui"
+                    domain="[('date_intervention','=',context_today())]"/>
+
+        </search>
+        </field>
+    </record>
+</odoo>

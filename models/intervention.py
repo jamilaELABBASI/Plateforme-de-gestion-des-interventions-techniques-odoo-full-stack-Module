@@ -38,4 +38,7 @@ class Intervention(models.Model):
         self.statut="en_cours"
 
     def statut_terminee(self):
+        if not self.rapport:
+            raise ValidationError("le rapport est obligatoire")
         self.statut="terminee"
+
