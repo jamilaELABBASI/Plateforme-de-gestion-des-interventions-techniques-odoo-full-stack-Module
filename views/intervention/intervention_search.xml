@@ -12,7 +12,6 @@
             <field name="client_id"/>
 
             <!-- Filtres -->
-            <separator/>
 
             <filter name="filter_nouveau"
                     string="Nouveau"

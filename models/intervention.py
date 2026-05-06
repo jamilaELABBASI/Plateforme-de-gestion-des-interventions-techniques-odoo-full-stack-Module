@@ -16,10 +16,10 @@ class Intervention(models.Model):
         ('terminee', 'Terminée'),
     ], default='nouveau')
     priorite=fields.Selection([
-        ("low", "Basse"),
-        ("medium", "Moyenne"),
-        ("high", "Haute")
-    ],string='Priorit de l\'intervention',default='medium')
+        ("basse", "Basse"),
+        ("moyenne", "Moyenne"),
+        ("haute", "Haute")
+    ],string='Priorit de l\'intervention',default='moyenne')
     technicien_id = fields.Many2one('technicien', string="Technicien")  # user of system has a login and pwd and access rights
     temps_passe=fields.Float(string='Temps passe de l\'intervention')
     rapport=fields.Text(string='Rapport')
@@ -38,7 +38,7 @@ class Intervention(models.Model):
         self.statut="en_cours"
 
     def statut_terminee(self):
-        if not self.rapport:
-            raise ValidationError("le rapport est obligatoire")
+        # if not self.rapport:
+        #     raise ValidationError("le rapport est obligatoire")
         self.statut="terminee"
 

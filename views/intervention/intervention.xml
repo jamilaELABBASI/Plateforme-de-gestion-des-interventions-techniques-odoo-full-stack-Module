@@ -5,7 +5,9 @@
         <field name="model">intervention</field>
         <field name="arch" type="xml">
 
-            <list>
+            <list decoration-success="statut == 'terminee'"
+                  decoration-warning="statut == 'en_cours'"
+                  decoration-danger="statut == 'nouveau'">
                 <field name="name"/>
                 <field name="description"/>
                 <field name="date_demande"/>
