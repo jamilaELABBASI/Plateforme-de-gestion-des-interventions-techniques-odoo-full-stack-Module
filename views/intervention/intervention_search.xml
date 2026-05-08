@@ -1,7 +1,7 @@
 <odoo>
     <record id="intervention_search" model="ir.ui.view">
         <field name="name">intervention.search</field>
-        <field name="model">intervention</field>
+        <field name="model">intervention.management</field>
         <field name="arch" type="xml">
 
             <search>

@@ -1,7 +1,7 @@
 <odoo>
     <record id="technicien_list" model="ir.ui.view">
         <field name="name">technicien.list</field>
-        <field name="model">technicien</field>
+        <field name="model">technicien.management</field>
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
@@ -15,7 +15,7 @@
 
     <record id="technicien_form" model="ir.ui.view">
         <field name="name">technicien.form</field>
-        <field name="model">technicien</field>
+        <field name="model">technicien.management</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>

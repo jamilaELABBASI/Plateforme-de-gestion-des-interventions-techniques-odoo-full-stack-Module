@@ -2,12 +2,12 @@
 
     <record id="intervention_list" model="ir.ui.view">
         <field name="name">intervention.list</field>
-        <field name="model">intervention</field>
+        <field name="model">intervention.management</field>
         <field name="arch" type="xml">
 
-            <list decoration-success="statut == 'terminee'"
-                  decoration-warning="statut == 'en_cours'"
-                  decoration-danger="statut == 'nouveau'">
+            <list decoration-success="priorite == 'basse'"
+                  decoration-warning="priorite == 'moyenne'"
+                  decoration-danger="is_late == True">
                 <field name="name"/>
                 <field name="description"/>
                 <field name="date_demande"/>
@@ -23,7 +23,7 @@
 
     <record id="intervention_form" model="ir.ui.view">
         <field name="name">intervention.form</field>
-        <field name="model">intervention</field>
+        <field name="model">intervention.management</field>
         <field name="arch" type="xml">
             <form class="form_intervention">
                 <header>
@@ -41,8 +41,8 @@
                     <group string="Gestion" class="center_group_title">
                         <field name="technicien_id"/>
                         <field name="client_id"/>
+                        <field name="date_demande" />
                         <field name="date_intervention"/>
-                        <field name="date_demande"/>
                     </group>
 
                     <group string="Suivi technicien" class="center_group_title" invisible="statut != 'terminee'">
