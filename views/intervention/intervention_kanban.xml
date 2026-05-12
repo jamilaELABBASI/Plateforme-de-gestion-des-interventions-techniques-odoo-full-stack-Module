@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="intervention_kanban_view" model="ir.ui.view">
+        <field name="name">intervention.kanban</field>
+        <field name="model">intervention.management</field>
+        <field name="arch" type="xml">
+
+            <kanban default_group_by="statut">
+
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="priorite"/>
+                <field name="statut"/>
+                <field name="date_intervention"/>
+
+                <templates>
+                    <t t-name="card">
+
+                        <div t-attf-class="
+                            oe_kanban_card
+                            #{record.priorite.raw_value == 'haute' ? 'bg-danger text-white' : ''}
+                            #{record.priorite.raw_value == 'moyenne' ? 'bg-warning' : ''}
+                            #{record.priorite.raw_value == 'basse' ? 'bg-success text-white' : ''}
+                        ">
+
+                            <div class="p-3">
+
+                                <h4>
+                                    <field name="name"/>
+                                </h4>
+
+                                <div>
+                                    <strong>Client :</strong>
+                                    <field name="client_id"/>
+                                </div>
+
+                                <div>
+                                    <strong>Statut :</strong>
+                                    <field name="statut"/>
+                                </div>
+
+                                <div>
+                                    <strong>Priorité :</strong>
+                                    <field name="priorite"/>
+                                </div>
+
+                                <div>
+                                    <strong>Date :</strong>
+                                    <field name="date_intervention"/>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </t>
+                </templates>
+
+            </kanban>
+
+        </field>
+    </record>
+
+</odoo>

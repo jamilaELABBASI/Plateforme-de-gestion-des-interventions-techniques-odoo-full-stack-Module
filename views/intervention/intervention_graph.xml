@@ -1,0 +1,13 @@
+<odoo>
+
+    <record id="intervention_graph_view" model="ir.ui.view">
+    <field name="name">intervention.graph</field>
+    <field name="model">intervention.management</field>
+    <field name="arch" type="xml">
+        <graph string="Interventions">
+            <field name="statut" type="row"/>
+        </graph>
+    </field>
+</record>
+
+</odoo>

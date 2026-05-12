@@ -1,0 +1,12 @@
+<odoo>
+    <record id="intervention_pivot_view" model="ir.ui.view">
+    <field name="name">intervention.pivot</field>
+    <field name="model">intervention.management</field>
+    <field name="arch" type="xml">
+        <pivot string="Analyse des interventions">
+            <field name="statut" type="row"/>
+            <field name="priorite" type="col"/>
+        </pivot>
+    </field>
+</record>
+</odoo>

@@ -48,9 +48,9 @@ class Intervention(models.Model):
         self.statut="en_cours"
 
     def statut_terminee(self):
+        self.statut="terminee"
         # if not self.rapport:
         #     raise ValidationError("le rapport est obligatoire")
-        self.statut="terminee"
 
 
     @api.onchange("end_date")

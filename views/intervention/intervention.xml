@@ -12,8 +12,8 @@
                 <field name="description"/>
                 <field name="date_demande"/>
                 <field name="date_intervention"/>
-                <field name="statut"/>
-                <field name="priorite"/>
+                <field name="statut" widget="badge"/>
+                <field name="priorite" widget="priority"/>
                 <field name="technicien_id"/>
                 <field name="client_id"/>
                 <field name="rapport"/>
@@ -34,8 +34,8 @@
                     <group string="Information" class="center_group_title" >
                         <field name="name"/>
                         <field name="description"/>
-                        <field name="priorite"/>
-                         <field name="statut"  widget="statusbar"/>
+                        <field name="priorite" widget="priority" />
+                         <field name="statut"  widget="badge"/>
                     </group>
 
                     <group string="Gestion" class="center_group_title">
