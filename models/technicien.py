@@ -6,6 +6,8 @@ class Technicien(models.Model):
     _description = 'technicien'
 
     name=fields.Char(string='Nom du technicien',required=True)
+    email=fields.Char(string='Nom du technicien',required=True)
+    phone=fields.Char(string='Nom du technicien',required=True)
     competences=fields.Many2many(
         "competence.management",
         "technicien_competence",
@@ -17,3 +19,5 @@ class Technicien(models.Model):
         "intervention.management",
         "technicien_id",
         "Interventions")
+    score_performance=fields.Float(compute="_compute_score")
+    intervention_count=fields.Float(compute="_compute_count")

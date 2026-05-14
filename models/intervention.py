@@ -31,6 +31,9 @@ class Intervention(models.Model):
     start_date = fields.Datetime(string="Date debut",default=fields.Datetime.now)
     end_date = fields.Datetime(string="Date fin")
     is_late=fields.Boolean(string="En retard",compute="_compute_is_late",store=True)
+    estimated_duration=fields.Float()
+    actual_duration=fields.Float()
+    cost=fields.Float()
 
     @api.constrains('date_intervention', 'date_demande')
     def _check_date_intervention(self):

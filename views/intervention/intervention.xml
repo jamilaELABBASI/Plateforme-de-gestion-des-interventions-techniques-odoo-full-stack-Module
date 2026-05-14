@@ -35,7 +35,10 @@
                         <field name="name"/>
                         <field name="description"/>
                         <field name="priorite" widget="priority" />
-                         <field name="statut"  widget="badge"/>
+                        <field name="statut"  widget="badge"/>
+                        <field name="estimated_duration"/>
+                        <field name="actual_estimated"/>
+                        <field name="cost"/>
                     </group>
 
                     <group string="Gestion" class="center_group_title">
