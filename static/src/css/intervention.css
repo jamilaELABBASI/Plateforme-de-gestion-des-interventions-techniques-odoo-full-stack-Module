@@ -46,6 +46,40 @@
     color: white !important;
 }
 
+
+.custom_kanban_card {
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.custom_kanban_card:hover {
+    transform: translateY(-5px);
+}
+
+/* Haute priorité */
+.high-priority {
+    background: #dc3545;
+    color: white;
+    border-left: 8px solid #8b0000;
+}
+
+/* Priorité moyenne */
+.medium-priority {
+    background: #ffc107;
+    color: black;
+    border-left: 8px solid #d39e00;
+}
+
+/* Priorité basse */
+.low-priority {
+    background: #198754;
+    color: white;
+    border-left: 8px solid #0f5132;
+}
+
+
 /*.o_list_view .o_data_row_decoration_success td{ background-color: green !important; }*/
 /*.o_data_row_decoration_warning { background-color: orange !important; }*/
 /*.o_data_row_decoration-danger  { background-color: red !important; }*/

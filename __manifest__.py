@@ -36,6 +36,8 @@ Long description of module's purpose
         'views/intervention/intervention.xml',
         'views/technicien/technicien.xml',
         'views/technicien/technicien_actions.xml',
+        'views/competence/competence.xml',
+        'views/competence/competence_actions.xml',
         'views/menu.xml',
     ],
     'installable': True,

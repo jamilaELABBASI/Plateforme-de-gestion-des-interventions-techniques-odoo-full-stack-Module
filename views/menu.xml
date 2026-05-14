@@ -17,4 +17,11 @@
         action="action_technicien"
         parent="menu_intervention_root"
     />
+
+    <menuitem
+        id="menu_competence"
+        name="Competence"
+        action="action_competence"
+        parent="menu_intervention_root"
+    />
 </odoo>

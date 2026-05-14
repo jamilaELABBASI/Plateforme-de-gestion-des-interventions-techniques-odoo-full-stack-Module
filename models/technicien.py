@@ -9,7 +9,7 @@ class Technicien(models.Model):
     competences=fields.Many2many(
         "competence.management",
         "technicien_competence",
-        "intervention_id",
+        "technicien_id",
         "competence_id",
         string='Competances')
     disponibilite=fields.Boolean(string="Disponibilite")

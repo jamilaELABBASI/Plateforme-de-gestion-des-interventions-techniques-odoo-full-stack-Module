@@ -18,10 +18,10 @@
                     <t t-name="card">
 
                         <div t-attf-class="
-                            oe_kanban_card
-                            #{record.priorite.raw_value == 'haute' ? 'bg-danger text-white' : ''}
-                            #{record.priorite.raw_value == 'moyenne' ? 'bg-warning' : ''}
-                            #{record.priorite.raw_value == 'basse' ? 'bg-success text-white' : ''}
+                            oe_kanban_card custom_kanban_card
+                            #{record.priorite.raw_value == 'haute'}
+                            #{record.priorite.raw_value == 'moyenne'}
+                            #{record.priorite.raw_value == 'basse'}
                         ">
 
                             <div class="p-3">
