@@ -21,3 +21,9 @@ class Technicien(models.Model):
         "Interventions")
     score_performance=fields.Float(compute="_compute_score")
     intervention_count=fields.Float(compute="_compute_count")
+
+    def _compute_count(self):
+        for rec in self:
+            rec.intervention_count=self.env['intervention.management'].search_count([])
+
+

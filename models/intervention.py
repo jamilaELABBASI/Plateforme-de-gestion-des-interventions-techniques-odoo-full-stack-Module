@@ -71,3 +71,5 @@ class Intervention(models.Model):
                 rec.message_post(body="cette intervention est en retard")
 
 
+    @api.constrains('technicien_id')
+    def _check_disponibilite(self):

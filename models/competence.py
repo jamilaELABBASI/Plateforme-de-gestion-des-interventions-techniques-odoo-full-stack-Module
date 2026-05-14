@@ -13,3 +13,9 @@ class Competence(models.Model):
     'technicien_id',
     'Techniciens',
   )
+
+  level=fields.Selection([
+    ("junior","Junior"),
+    ("confirmed","Confirmed"),
+    ("expert","Expert"),
+   ],default='junior')
