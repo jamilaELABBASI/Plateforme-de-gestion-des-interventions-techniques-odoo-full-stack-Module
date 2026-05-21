@@ -21,8 +21,12 @@
                 <sheet>
                     <group>
                         <field name="name"/>
+                        <field name="email"/>
+                        <field name="phone"/>
+                        <field name="address"/>
                         <field name="competences" widget="many2many_tags"/>
                         <field name="disponibilite"/>
+                        <field name="picture"/>
                     </group>
                     <notebook>
                         <page string="Interventions">

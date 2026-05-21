@@ -8,6 +8,7 @@ class Technicien(models.Model):
     name=fields.Char(string='Nom du technicien',required=True)
     email=fields.Char(string='Nom du technicien')
     phone=fields.Char(string='Nom du technicien',required=True)
+    address=fields.Char()
     competences=fields.Many2many(
         "competence.management",
         "technicien_competence",
@@ -15,6 +16,7 @@ class Technicien(models.Model):
         "competence_id",
         string='Competances')
     disponibilite=fields.Boolean(string="Disponibilite")
+    picture=fields.Image()
     intervention_ids=fields.One2many(
         "intervention.management",
         "technicien_id",

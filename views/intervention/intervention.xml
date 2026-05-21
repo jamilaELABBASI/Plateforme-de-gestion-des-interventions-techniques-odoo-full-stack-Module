@@ -16,7 +16,7 @@
                 <field name="priorite" widget="priority"/>
                 <field name="technicien_id"/>
                 <field name="client_id"/>
-                <field name="rapport"/>
+                <field name="comment"/>
             </list>
         </field>
     </record>
@@ -49,7 +49,7 @@
                     </group>
 
                     <group string="Suivi technicien" class="center_group_title" invisible="statut != 'terminee'">
-                        <field name="rapport" required="statut == 'terminee'"/>
+                        <field name="comment" required="statut == 'terminee'"/>
                     </group>
 
                 </sheet>

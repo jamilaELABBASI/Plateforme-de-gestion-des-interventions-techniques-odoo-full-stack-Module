@@ -7,9 +7,11 @@ class Intervention(models.Model):
     _description = 'Intervention'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
+    reference=fields.Char(string='Reference de l\'intervention',required=True)
     name=fields.Char(string='Name',required=True)
     description=fields.Text(string='Description')
     client_id=fields.Many2one('res.partner',string='Client',required=True) # is a contact
+    address=fields.Char(string='Adresse',required=True)
     date_demande=fields.Datetime(string="Date de demande",default=fields.Datetime.now,readonly=True)
     date_intervention=fields.Datetime(string='Date de l\'intervention')
     statut = fields.Selection([
@@ -25,14 +27,15 @@ class Intervention(models.Model):
     technicien_id = fields.Many2one(
         'technicien.management',
         string="Technicien")  # user of system has a login and pwd and access rights
-    temps_passe=fields.Float(string='Temps passe de l\'intervention')
-    rapport=fields.Text(string='Rapport')
+    comment=fields.Text(string='Commentaire')
     start_date = fields.Datetime(string="Date debut",default=fields.Datetime.now)
     end_date = fields.Datetime(string="Date fin")
     is_late=fields.Boolean(string="En retard",compute="_compute_is_late",store=True)
     actual_estimated=fields.Float()
     actual_duration=fields.Float()
     cost=fields.Float()
+    before_picture=fields.Image()
+    after_picture=fields.Image()
 
     @api.constrains('date_intervention', 'date_demande')
     def _check_date_intervention(self):
