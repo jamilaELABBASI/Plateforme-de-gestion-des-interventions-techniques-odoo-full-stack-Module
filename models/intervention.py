@@ -1,6 +1,5 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-from odoo.orm.decorators import readonly
 
 
 class Intervention(models.Model):
@@ -31,7 +30,7 @@ class Intervention(models.Model):
     start_date = fields.Datetime(string="Date debut",default=fields.Datetime.now)
     end_date = fields.Datetime(string="Date fin")
     is_late=fields.Boolean(string="En retard",compute="_compute_is_late",store=True)
-    estimated_duration=fields.Float()
+    actual_estimated=fields.Float()
     actual_duration=fields.Float()
     cost=fields.Float()
 
@@ -73,3 +72,11 @@ class Intervention(models.Model):
 
     @api.constrains('technicien_id')
     def _check_disponibilite(self):
+        for rec in self:
+            if not rec.technicien_id:
+                continue
+            if rec.technicien_id.intervention_count >= 3:
+                raise ValidationError("Technicien surcharge")
+
+
+

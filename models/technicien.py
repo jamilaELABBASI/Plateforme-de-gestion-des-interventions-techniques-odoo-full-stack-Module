@@ -1,4 +1,4 @@
-from odoo import models,fields
+from odoo import models, fields, api
 
 
 class Technicien(models.Model):
@@ -6,7 +6,7 @@ class Technicien(models.Model):
     _description = 'technicien'
 
     name=fields.Char(string='Nom du technicien',required=True)
-    email=fields.Char(string='Nom du technicien',required=True)
+    email=fields.Char(string='Nom du technicien')
     phone=fields.Char(string='Nom du technicien',required=True)
     competences=fields.Many2many(
         "competence.management",
@@ -15,15 +15,16 @@ class Technicien(models.Model):
         "competence_id",
         string='Competances')
     disponibilite=fields.Boolean(string="Disponibilite")
-    interventions_ids=fields.One2many(
+    intervention_ids=fields.One2many(
         "intervention.management",
         "technicien_id",
         "Interventions")
     score_performance=fields.Float(compute="_compute_score")
-    intervention_count=fields.Float(compute="_compute_count")
+    intervention_count=fields.Integer(compute="_compute_intervention_count")
 
-    def _compute_count(self):
+    @api.depends('intervention_ids')
+    def _compute_intervention_count(self):
         for rec in self:
-            rec.intervention_count=self.env['intervention.management'].search_count([])
+            rec.intervention_count = len(rec.intervention_ids)
 
 

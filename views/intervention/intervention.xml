@@ -36,7 +36,7 @@
                         <field name="description"/>
                         <field name="priorite" widget="priority" />
                         <field name="statut"  widget="badge"/>
-                        <field name="estimated_duration"/>
+                        <field name="actual_duration"/>
                         <field name="actual_estimated"/>
                         <field name="cost"/>
                     </group>
