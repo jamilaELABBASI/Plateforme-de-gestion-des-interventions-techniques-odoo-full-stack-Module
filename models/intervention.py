@@ -60,10 +60,11 @@ class Intervention(models.Model):
 
     @api.onchange("end_date")
     def _compute_is_late(self):
-        now=fields.Datetime.now()
         for rec in self:
-            rec.is_late=rec.end_date and rec.end_date < now
-
+            rec.is_late = (
+                    rec.end_date
+                    and rec.end_date < fields.Datetime.now()
+                    and rec.statut != "terminee")
 
 
     @api.depends("is_late")
