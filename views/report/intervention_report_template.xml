@@ -1,0 +1,18 @@
+<odoo>
+
+    <template id="report_intervention_template">
+
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+
+                <div class="page">
+                    <h1>PDF OK</h1>
+                    <p t-esc="doc.name"/>
+                </div>
+
+            </t>
+        </t>
+
+    </template>
+
+</odoo>

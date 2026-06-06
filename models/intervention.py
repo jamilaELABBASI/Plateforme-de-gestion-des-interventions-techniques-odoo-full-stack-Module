@@ -8,7 +8,7 @@ class Intervention(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     reference=fields.Char(string='Reference de l\'intervention',required=True)
-    name=fields.Char(string='Name',required=True)
+    name=fields.Char(string='Name',required=True,tracking=True)
     description=fields.Text(string='Description')
     client_id=fields.Many2one('res.partner',string='Client',required=True) # is a contact
     address=fields.Char(string='Adresse',required=True)
@@ -18,12 +18,12 @@ class Intervention(models.Model):
         ('nouveau', 'Nouveau'),
         ('en_cours', 'En cours'),
         ('terminee', 'Terminée'),
-    ], default='nouveau')
+    ], default='nouveau',tracking=True)
     priorite=fields.Selection([
         ("basse", "Basse"),
         ("moyenne", "Moyenne"),
         ("haute", "Haute")
-    ],string='Priorit de l\'intervention',default='moyenne')
+    ],string='Priorit de l\'intervention',default='moyenne',tracking=True)
     technicien_id = fields.Many2one(
         'technicien.management',
         string="Technicien")  # user of system has a login and pwd and access rights

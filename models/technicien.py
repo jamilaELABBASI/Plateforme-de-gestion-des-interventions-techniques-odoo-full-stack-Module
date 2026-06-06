@@ -8,7 +8,7 @@ class Technicien(models.Model):
     name=fields.Char(string='Nom du technicien',required=True)
     email=fields.Char(string='Nom du technicien')
     phone=fields.Char(string='Nom du technicien',required=True)
-    address=fields.Char()
+    address=fields.Char(required=True)
     competences=fields.Many2many(
         "competence.management",
         "technicien_competence",
@@ -29,4 +29,11 @@ class Technicien(models.Model):
         for rec in self:
             rec.intervention_count = len(rec.intervention_ids)
 
+    def action_assign(self):
+        self.state = 'assigned'
 
+        self.activity_schedule(
+            'mail.mail_activity_data_todo',
+            summary='Nouvelle intervention',
+            note='Une intervention vous a été assignée'
+        )

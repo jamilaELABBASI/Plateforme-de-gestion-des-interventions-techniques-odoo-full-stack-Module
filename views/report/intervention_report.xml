@@ -1,0 +1,25 @@
+<odoo>
+
+    <record id="action_report_intervention" model="ir.actions.report">
+
+        <field name="name">Rapport Intervention</field>
+
+        <field name="model">intervention.management</field>
+
+<!--        <field name="report_type">qweb-pdf</field>-->
+        <field name="report_type">qweb-html</field>
+
+        <field name="report_name">intervention_management.report_intervention_template</field>
+
+        <field name="report_file">intervention_management.report_intervention_template</field>
+
+        <field name="print_report_name">'Intervention - %s' % (object.name or '')</field>
+
+
+        <field name="binding_model_id" ref="model_intervention_management"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">form</field>
+
+    </record>
+
+</odoo>
