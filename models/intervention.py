@@ -32,7 +32,7 @@ class Intervention(models.Model):
     end_date = fields.Datetime(string="Date fin")
     is_late=fields.Boolean(string="En retard",compute="_compute_is_late",store=True)
     actual_estimated=fields.Float()
-    actual_duration=fields.Float()
+    actual_duration=fields.Float(compute="_compute_actual_duration",store=True)
     cost=fields.Float()
     before_picture=fields.Image()
     after_picture=fields.Image()
@@ -84,3 +84,11 @@ class Intervention(models.Model):
 
 
 
+    @api.depends('start_date', 'end_date')
+    def _compute_actual_duration(self):
+        for rec in self:
+            if rec.start_date and rec.end_date:
+                rec.actual_duration = (rec.end_date - rec.start_date).total_seconds() / 3600
+
+            else:
+                rec.actual_duration = 0

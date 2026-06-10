@@ -52,6 +52,10 @@
                         <field name="comment" required="statut == 'terminee'"/>
                     </group>
 
+                      <group string="photo" class="center_group_title">
+                        <field name="before_picture" required="True"/>
+                        <field name="after_picture" invisible="statut != 'terminee'" required="statut=='terminee'"/>
+                    </group>
                 </sheet>
 
                 <chatter/>
