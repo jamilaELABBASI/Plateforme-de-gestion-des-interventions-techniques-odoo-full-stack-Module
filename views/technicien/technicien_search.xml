@@ -1,0 +1,14 @@
+<odoo>
+    <record id="technicien_search" model="ir.ui.view">
+        <field name="name">technicien_search</field>
+        <field name="model">technicien.management</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Nom de technicien"/>
+                <field name="competences" string="Competence"/>
+
+            </search>
+        </field>
+
+    </record>
+</odoo>
