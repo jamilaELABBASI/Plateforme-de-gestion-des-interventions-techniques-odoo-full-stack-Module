@@ -10,8 +10,8 @@
                   decoration-danger="is_late == True">
                 <field name="name"/>
                 <field name="description"/>
-                <field name="date_demande"/>
-                <field name="date_intervention"/>
+                <field name="date_creation_intervention"/>
+                <field name="date_resolution_intervention"/>
                 <field name="statut" widget="badge"/>
                 <field name="priorite" widget="priority"/>
                 <field name="technicien_id"/>
@@ -44,8 +44,8 @@
                     <group string="Gestion" class="center_group_title">
                         <field name="technicien_id"/>
                         <field name="client_id"/>
-                        <field name="date_demande" />
-                        <field name="date_intervention"/>
+                        <field name="date_creation_intervention" />
+                        <field name="date_resolution_intervention"/>
                     </group>
 
                     <group string="Suivi technicien" class="center_group_title" invisible="statut != 'terminee'">

@@ -27,8 +27,17 @@
 
             <filter name="filter_today"
                     string="Aujourd hui"
-                    domain="[('date_intervention','=',context_today())]"/>
+                    domain="[('date_creation_intervention','=',context_today())]"/>
 
+            <filter name="recent"
+                    string="Plus recent"
+                    context="{'order':'date_creation_intervention desc'}"
+            />
+
+            <filter name="old"
+                    string="Plus ancien"
+                    context="{'order':'date_creation_intervention asc'}"
+            />
         </search>
         </field>
     </record>

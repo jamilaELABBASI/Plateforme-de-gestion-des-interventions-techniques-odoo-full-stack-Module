@@ -12,8 +12,8 @@ class Intervention(models.Model):
     description=fields.Text(string='Description')
     client_id=fields.Many2one('res.partner',string='Client',required=True) # is a contact
     address=fields.Char(string='Adresse',required=True)
-    date_demande=fields.Datetime(string="Date de demande",default=fields.Datetime.now,readonly=True)
-    date_intervention=fields.Datetime(string='Date de l\'intervention')
+    date_creation_intervention=fields.Datetime(string="Date de demande",default=fields.Datetime.now,readonly=True)
+    date_resolution_intervention=fields.Datetime(string='Date de l\'intervention')
     statut = fields.Selection([
         ('nouveau', 'Nouveau'),
         ('en_cours', 'En cours'),

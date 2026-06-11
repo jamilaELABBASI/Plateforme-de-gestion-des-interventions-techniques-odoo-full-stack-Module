@@ -12,7 +12,7 @@
                 <field name="client_id"/>
                 <field name="priorite"/>
                 <field name="statut"/>
-                <field name="date_intervention"/>
+                <field name="date_resolution_intervention"/>
 
                 <templates>
                     <t t-name="card">
@@ -47,7 +47,7 @@
 
                                 <div>
                                     <strong>Date :</strong>
-                                    <field name="date_intervention"/>
+                                    <field name="date_resolution_intervention"/>
                                 </div>
 
                             </div>
