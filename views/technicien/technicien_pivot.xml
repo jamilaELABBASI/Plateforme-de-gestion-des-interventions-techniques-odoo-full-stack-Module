@@ -1,0 +1,18 @@
+<odoo>
+    <record id="view_technicien_pivot" model="ir.ui.view">
+        <field name="name">technicien.pivot</field>
+        <field name="model">intervention.management</field>
+        <field name="arch" type="xml">
+
+            <pivot string="Performance Techniciens">
+
+                <field name="technicien_id" type="row"/>
+
+                <field name="actual_duration" type="measure"/>
+                <field name="actual_estimated" type="measure"/>
+
+            </pivot>
+
+        </field>
+    </record>
+</odoo>

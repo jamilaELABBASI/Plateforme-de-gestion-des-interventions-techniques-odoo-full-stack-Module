@@ -9,6 +9,7 @@
                   decoration-warning="priorite == 'moyenne'"
                   decoration-danger="is_late == True">
                 <field name="name"/>
+                <field name="cost"/>
                 <field name="description"/>
                 <field name="date_creation_intervention"/>
                 <field name="date_resolution_intervention"/>
@@ -35,7 +36,7 @@
                         <field name="name"/>
                         <field name="description"/>
                         <field name="priorite" widget="priority" />
-                        <field name="statut"  widget="badge"/>
+                        <field name="statut"  />
                         <field name="actual_duration"/>
                         <field name="actual_estimated"/>
                         <field name="cost"/>

@@ -3,9 +3,13 @@
     <field name="name">intervention.pivot</field>
     <field name="model">intervention.management</field>
     <field name="arch" type="xml">
-        <pivot string="Analyse des interventions">
-            <field name="statut" type="row"/>
-            <field name="priorite" type="col"/>
+        <pivot string="Statistiques des interventions">
+            <!-- Mesures -->
+<!--            <field name="id" type="mesure" string="Nombre d'interventions"/>-->
+
+            <!-- Groupements -->
+            <field name="statut" type="col"/>
+            <field name="priorite" type="row"/>
         </pivot>
     </field>
 </record>

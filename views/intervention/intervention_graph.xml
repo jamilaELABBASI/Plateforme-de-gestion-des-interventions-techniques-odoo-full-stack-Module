@@ -1,13 +1,53 @@
 <odoo>
 
-    <record id="intervention_graph_view" model="ir.ui.view">
-    <field name="name">intervention.graph</field>
-    <field name="model">intervention.management</field>
-    <field name="arch" type="xml">
-        <graph string="Interventions">
-            <field name="statut" type="row"/>
-        </graph>
-    </field>
-</record>
+    <record id="intervention_graph_status" model="ir.ui.view">
+        <field name="name">intervention.graph</field>
+        <field name="model">intervention.management</field>
+        <field name="arch" type="xml">
+            <graph string="Interventions" type="pie">
+                <field name="statut" type="row"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="view_intervention_graph_month" model="ir.ui.view">
+        <field name="name">intervention.graph.creation</field>
+        <field name="model">intervention.management</field>
+        <field name="arch" type="xml">
+            <graph string="Intervention par mois">
+                <field name="id" type="measure"/>
+                <field name="date_creation_intervention" interval="month"/>
+            </graph>
+        </field>
+    </record>
+
+
+
+    <record id="view_technicien_graph_actual_time" model="ir.ui.view">
+        <field name="name">technicien.graph.actual.time</field>
+        <field name="model">intervention.management</field>
+        <field name="arch" type="xml">
+            <graph string="Interventions par technicien" type="bar">
+                <field name="technicien_id"/>
+                <field name="actual_duration" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="view_intervention_graph_compare_duration" model="ir.ui.view">
+        <field name="name">intervention.graph.compare.duration</field>
+        <field name="model">intervention.management</field>
+        <field name="arch" type="xml">
+            <graph string="Temps estimé vs réel" type="bar">
+                <field name="technicien_id"/>
+                <field name="actual_estimated" type="measure"/>
+                <field name="actual_duration" type="measure"/>
+                <field name="cost" type="measure"/>
+            </graph>
+        </field>
+    </record>
 
 </odoo>

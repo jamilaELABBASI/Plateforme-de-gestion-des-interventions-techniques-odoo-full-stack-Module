@@ -36,9 +36,13 @@ Long description of module's purpose
         'views/intervention/intervention.xml',
         'views/report/intervention_report.xml',
         'views/report/intervention_report_template.xml',
+
         'views/technicien/technicien.xml',
+        'views/technicien/technicien_graph.xml',
+        'views/technicien/technicien_pivot.xml',
         'views/technicien/technicien_search.xml',
         'views/technicien/technicien_actions.xml',
+
         'views/competence/competence.xml',
         'views/competence/competence_actions.xml',
         'views/menu.xml',

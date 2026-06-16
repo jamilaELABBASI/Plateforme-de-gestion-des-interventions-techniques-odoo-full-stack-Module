@@ -1,3 +1,5 @@
+from email.policy import default
+
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
@@ -6,6 +8,7 @@ class Intervention(models.Model):
     _name = 'intervention.management'
     _description = 'Intervention'
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = "date_creation_intervention desc"
 
     reference=fields.Char(string='Reference de l\'intervention',required=True)
     name=fields.Char(string='Name',required=True,tracking=True)
@@ -18,7 +21,7 @@ class Intervention(models.Model):
         ('nouveau', 'Nouveau'),
         ('en_cours', 'En cours'),
         ('terminee', 'Terminée'),
-    ], default='nouveau',tracking=True)
+    ],default='nouveau',tracking=True)
     priorite=fields.Selection([
         ("basse", "Basse"),
         ("moyenne", "Moyenne"),
@@ -57,7 +60,6 @@ class Intervention(models.Model):
         # if not self.rapport:
         #     raise ValidationError("le rapport est obligatoire")
 
-
     @api.onchange("end_date")
     def _compute_is_late(self):
         for rec in self:
@@ -82,8 +84,6 @@ class Intervention(models.Model):
             if rec.technicien_id.intervention_count >= 3:
                 raise ValidationError("Technicien surcharge")
 
-
-
     @api.depends('start_date', 'end_date')
     def _compute_actual_duration(self):
         for rec in self:
@@ -92,3 +92,11 @@ class Intervention(models.Model):
 
             else:
                 rec.actual_duration = 0
+
+    """   """
+
+   
+
+
+
+
