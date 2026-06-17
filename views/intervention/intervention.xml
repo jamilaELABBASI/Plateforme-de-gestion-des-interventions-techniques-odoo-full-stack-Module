@@ -12,7 +12,7 @@
                 <field name="cost"/>
                 <field name="description"/>
                 <field name="date_creation_intervention"/>
-                <field name="date_resolution_intervention"/>
+                <field name="date_resolution_intervention" invisible="statut != 'terminee'"/>
                 <field name="statut" widget="badge"/>
                 <field name="priorite" widget="priority"/>
                 <field name="technicien_id"/>
@@ -28,8 +28,8 @@
         <field name="arch" type="xml">
             <form class="form_intervention">
                 <header>
-                    <button class="button" name="statut_encours" string="Démarrer" type="object"/>
-                    <button class="button" name="statut_terminee" string="Terminer" type="object"/>
+                    <button class="button" name="statut_encours" string="Démarrer" type="object" invisible="not id"/>
+                    <button class="button" name="statut_terminee" string="Terminer" type="object" invisible="not id"/>
                 </header>
                 <sheet>
                     <group string="Information" class="center_group_title" >
@@ -37,8 +37,8 @@
                         <field name="description"/>
                         <field name="priorite" widget="priority" />
                         <field name="statut"  />
-                        <field name="actual_duration"/>
-                        <field name="actual_estimated"/>
+                        <field name="resolution_time"/>
+                        <field name="estimated_time"/>
                         <field name="cost"/>
                     </group>
 

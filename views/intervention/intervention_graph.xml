@@ -31,7 +31,7 @@
         <field name="arch" type="xml">
             <graph string="Interventions par technicien" type="bar">
                 <field name="technicien_id"/>
-                <field name="actual_duration" type="measure"/>
+                <field name="resolution_time" type="measure"/>
             </graph>
         </field>
     </record>
@@ -43,8 +43,8 @@
         <field name="arch" type="xml">
             <graph string="Temps estimé vs réel" type="bar">
                 <field name="technicien_id"/>
-                <field name="actual_estimated" type="measure"/>
-                <field name="actual_duration" type="measure"/>
+                <field name="estimated_time" type="measure"/>
+                <field name="resolution_time" type="measure"/>
                 <field name="cost" type="measure"/>
             </graph>
         </field>

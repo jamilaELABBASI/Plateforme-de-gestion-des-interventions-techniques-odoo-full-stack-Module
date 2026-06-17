@@ -7,8 +7,8 @@
             <graph string="Temps réel par technicien" type="bar">
 
                 <field name="technicien_id"/>
-                <field name="actual_duration" type="measure"/>
-                <field name="actual_duration" type="measure"/>
+                <field name="resolution_time" type="measure"/>
+                <field name="estimated_time" type="measure"/>
 
             </graph>
 

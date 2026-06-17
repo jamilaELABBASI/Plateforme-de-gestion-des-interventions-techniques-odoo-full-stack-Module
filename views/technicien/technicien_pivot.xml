@@ -8,8 +8,8 @@
 
                 <field name="technicien_id" type="row"/>
 
-                <field name="actual_duration" type="measure"/>
-                <field name="actual_estimated" type="measure"/>
+                <field name="resolution_time" type="measure"/>
+                <field name="estimated_time" type="measure"/>
 
             </pivot>
 

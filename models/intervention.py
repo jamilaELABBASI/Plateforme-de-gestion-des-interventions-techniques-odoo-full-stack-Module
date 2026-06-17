@@ -34,8 +34,8 @@ class Intervention(models.Model):
     start_date = fields.Datetime(string="Date debut",default=fields.Datetime.now)
     end_date = fields.Datetime(string="Date fin")
     is_late=fields.Boolean(string="En retard",compute="_compute_is_late",store=True)
-    actual_estimated=fields.Float()
-    actual_duration=fields.Float(compute="_compute_actual_duration",store=True)
+    estimated_time=fields.Float()
+    resolution_time=fields.Float(compute="_compute_resolution_time",store=True)
     cost=fields.Float()
     before_picture=fields.Image()
     after_picture=fields.Image()
@@ -85,18 +85,25 @@ class Intervention(models.Model):
                 raise ValidationError("Technicien surcharge")
 
     @api.depends('start_date', 'end_date')
-    def _compute_actual_duration(self):
+    def _compute_resolution_time(self):
         for rec in self:
             if rec.start_date and rec.end_date:
-                rec.actual_duration = (rec.end_date - rec.start_date).total_seconds() / 3600
+                rec.resolution_time = (rec.end_date - rec.start_date).total_seconds() / 3600
 
             else:
-                rec.actual_duration = 0
+                rec.resolution_time = 0
 
     """   """
 
    
-
+    @api.depends("date_creation_intervention","date_resolution_intervention")
+    def _compute_resolution_time(self):
+        for rec in self:
+            if rec.date_creation_intervention and rec.date_resolution_intervention:
+                delta=rec.date_creation_intervention - rec.date_resolution_intervention
+                rec.resolution_time = delta.total_seconds() / 3600
+            else:
+                rec.resolution_time = 0
 
 
 
