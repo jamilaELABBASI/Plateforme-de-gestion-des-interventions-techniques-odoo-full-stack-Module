@@ -21,6 +21,7 @@ class Intervention(models.Model):
         ('nouveau', 'Nouveau'),
         ('en_cours', 'En cours'),
         ('terminee', 'Terminée'),
+        ('annulee', 'Annulée'),
     ],default='nouveau',tracking=True)
     priorite=fields.Selection([
         ("basse", "Basse"),
@@ -36,9 +37,17 @@ class Intervention(models.Model):
     is_late=fields.Boolean(string="En retard",compute="_compute_is_late",store=True)
     estimated_time=fields.Float()
     resolution_time=fields.Float(compute="_compute_resolution_time",store=True)
-    cost=fields.Float()
+    currency_id = fields.Many2one('res.currency', string="Devise" , default=lambda self: self.env.company.currency_id)
+    cost = fields.Monetary(currency_field='currency_id')
     before_picture=fields.Image()
     after_picture=fields.Image()
+    total_interventions=fields.Integer(compute="_compute_kpis",store=True)
+    interventions_nouveaus=fields.Integer()
+    interventions_terminees=fields.Integer()
+    interventions_en_cours=fields.Integer()
+    interventions_annulee=fields.Integer()
+    temps_moyen_resolution = fields.Float()
+    cout_total = fields.Monetary(currency_field='currency_id')
 
     @api.constrains('date_intervention', 'date_demande')
     def _check_date_intervention(self):
@@ -59,6 +68,9 @@ class Intervention(models.Model):
         self.statut="terminee"
         # if not self.rapport:
         #     raise ValidationError("le rapport est obligatoire")
+
+    def statut_annulee(self):
+        self.statut="annulee"
 
     @api.onchange("end_date")
     def _compute_is_late(self):
@@ -105,5 +117,19 @@ class Intervention(models.Model):
             else:
                 rec.resolution_time = 0
 
-
+    def _compute_kpis(self):
+        for rec in self:
+            rec.total_interventions = self.env['intervention.management'].search_count([])
+            rec.interventions_nouveaus = self.env['intervention.management'].search_count(
+                [('statut', '=', 'nouveau')]
+            )
+            rec.interventions_terminees = self.env['intervention.management'].search_count(
+                [('statut', '=', 'terminee')]
+            )
+            rec.interventions_en_cours = self.env['intervention.management'].search_count(
+                [('statut', '=', 'en_cours')]
+            )
+            rec.interventions_annulee = self.env['intervention.management'].search_count(
+                [('statut', '=', 'annulee')]
+            )
 

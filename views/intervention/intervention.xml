@@ -27,11 +27,22 @@
         <field name="model">intervention.management</field>
         <field name="arch" type="xml">
             <form class="form_intervention">
+
                 <header>
-                    <button class="button" name="statut_encours" string="Démarrer" type="object" invisible="not id"/>
-                    <button class="button" name="statut_terminee" string="Terminer" type="object" invisible="not id"/>
+                    <field name="statut" widget="statusbar" statusbar_visible="en_cours,terminee,annulee"/>
+                    <button class="button" name="statut_encours" string="Démarrer" type="object" invisible="not id or statut in ('en_cours','terminee','annulee')"/>
+                    <button class="button" name="statut_terminee" string="Terminer" type="object" invisible="not id  or statut in ('terminee','annulee')"/> <!-- or statut in ('nouveau','annulee') -->
+                    <button class="button" name="statut_annulee" string="Annuler" type="object" invisible="not id or statut in ('annulee') "/>
                 </header>
+
                 <sheet>
+                    <group string="Statistiques">
+                        <field name="total_interventions" readonly="1"/>
+                        <field name="interventions_nouveaus" readonly="1"/>
+                        <field name="interventions_terminees" readonly="1"/>
+                        <field name="interventions_en_cours" readonly="1"/>
+                        <field name="interventions_annulee" readonly="1"/>
+                    </group>
                     <group string="Information" class="center_group_title" >
                         <field name="name"/>
                         <field name="description"/>
@@ -57,6 +68,8 @@
                         <field name="before_picture" required="True"/>
                         <field name="after_picture" invisible="statut != 'terminee'" required="statut=='terminee'"/>
                     </group>
+
+
                 </sheet>
 
                 <chatter/>
