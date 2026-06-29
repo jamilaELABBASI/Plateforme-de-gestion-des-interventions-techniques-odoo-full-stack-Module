@@ -64,9 +64,16 @@
                         <field name="comment" required="statut == 'terminee'"/>
                     </group>
 
-                      <group string="photo" class="center_group_title">
+                    <group string="photo" class="center_group_title">
                         <field name="before_picture" required="True"/>
                         <field name="after_picture" invisible="statut != 'terminee'" required="statut=='terminee'"/>
+                    </group>
+
+                    <group class="center_group_title">
+                        <button name="ouvrir_maps"
+                            string="Voir sur la carte"
+                            type="object"
+                            invisible="not client_id or not client_id.contact_address"/>
                     </group>
 
 

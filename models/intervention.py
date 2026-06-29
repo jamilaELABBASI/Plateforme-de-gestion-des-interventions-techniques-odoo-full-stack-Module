@@ -1,7 +1,10 @@
 from email.policy import default
+from urllib.parse import quote
+
+import requests
 
 from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 
 class Intervention(models.Model):
@@ -48,6 +51,8 @@ class Intervention(models.Model):
     interventions_annulee=fields.Integer()
     temps_moyen_resolution = fields.Float()
     cout_total = fields.Monetary(currency_field='currency_id')
+    latitude=fields.Float("Latitude")
+    longitude=fields.Float("Longitude")
 
     @api.constrains('date_intervention', 'date_demande')
     def _check_date_intervention(self):
@@ -132,4 +137,49 @@ class Intervention(models.Model):
             rec.interventions_annulee = self.env['intervention.management'].search_count(
                 [('statut', '=', 'annulee')]
             )
+
+    def ouvrir_maps(self):
+        self.ensure_one()
+
+        if not self.client_id:
+            raise UserError("Veuillez sélectionner un client.")
+
+        address = self.client_id.contact_address
+
+        if not address:
+            raise UserError("Le client ne possède pas d'adresse.")
+
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"https://www.google.com/maps/search/?api=1&query={quote(address)}",
+            "target": "new",
+        }
+
+
+    def action_localiser(self):
+        self.ensure_one()
+
+        if not self.address:
+            raise UserError("Veuillez saisir une adresse.")
+
+        url = "https://nominatim.openstreetmap.org/search"
+
+        params = {
+            "q": self.address,
+            "format": "json",
+            "limit": 1
+        }
+
+        headers = {
+            "User-Agent": "Odoo"
+        }
+
+        response = requests.get(url, params=params, headers=headers)
+        data = response.json()
+
+        if not data:
+            raise UserError("Adresse introuvable.")
+
+        self.latitude = float(data[0]["lat"])
+        self.longitude = float(data[0]["lon"])
 
