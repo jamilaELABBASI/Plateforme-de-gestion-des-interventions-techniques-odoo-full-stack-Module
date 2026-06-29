@@ -76,7 +76,10 @@
                             invisible="not client_id or not client_id.contact_address"/>
                     </group>
 
-
+                    <group>
+                        <field name="signature_client" widget="signature"/>
+                        <field name="signature_technicien" widget="signature"/>
+                    </group>
                 </sheet>
 
                 <chatter/>

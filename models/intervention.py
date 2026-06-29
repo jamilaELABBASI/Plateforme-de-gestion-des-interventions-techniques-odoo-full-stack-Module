@@ -51,8 +51,8 @@ class Intervention(models.Model):
     interventions_annulee=fields.Integer()
     temps_moyen_resolution = fields.Float()
     cout_total = fields.Monetary(currency_field='currency_id')
-    latitude=fields.Float("Latitude")
-    longitude=fields.Float("Longitude")
+    signature_client=fields.Binary(string="Signature du client")
+    signature_technicien=fields.Binary(string="Signature du technicien ")
 
     @api.constrains('date_intervention', 'date_demande')
     def _check_date_intervention(self):
