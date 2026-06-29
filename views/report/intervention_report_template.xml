@@ -32,7 +32,7 @@
                         <tr>
                             <td style="font-weight:bold;">Date :</td>
                             <td>
-                                <span t-field="doc.date_intervention"/>
+                                <span t-field="doc.date_creation_intervention"/>
                             </td>
                         </tr>
 
@@ -47,7 +47,7 @@
                     <!-- Description -->
                     <div style="margin-top:20px;">
                         <h4>Description</h4>
-                        <div style="border:1px solid #000; padding:10px;">
+                        <div style="font-weight:bold;">
                             <span t-field="doc.description"/>
                         </div>
                     </div>
