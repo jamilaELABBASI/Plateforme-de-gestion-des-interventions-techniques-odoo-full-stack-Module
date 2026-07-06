@@ -54,16 +54,23 @@
 
                     <!-- Signature -->
                     <div style="margin-top:60px;">
-                        <table style="width:100%;">
-                            <tr>
-                                <td style="text-align:left;">
-                                    Signature Technicien
-                                </td>
-                                <td style="text-align:right;">
-                                    Signature Client
-                                </td>
-                            </tr>
-                        </table>
+                        <table style="width:100%; margin-top:40px;">
+                                <tr>
+                                    <td style="width:50%; text-align:center;">
+                                        <strong>Signature du technicien</strong><br/><br/>
+                                        <img t-if="doc.signature_technicien"
+                                             t-att-src="image_data_uri(doc.signature_technicien)"
+                                             style="max-height:100px; max-width:200px;"/>
+                                    </td>
+
+                                    <td style="width:50%; text-align:center;">
+                                        <strong>Signature du client</strong><br/><br/>
+                                        <img t-if="doc.signature_client"
+                                             t-att-src="image_data_uri(doc.signature_client)"
+                                             style="max-height:100px; max-width:200px;"/>
+                                    </td>
+                                </tr>
+                            </table>
                     </div>
 
                 </div>

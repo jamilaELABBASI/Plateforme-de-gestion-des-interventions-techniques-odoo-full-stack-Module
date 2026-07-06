@@ -1,11 +1,11 @@
 from email.policy import default
 from urllib.parse import quote
-
 import requests
-
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError, UserError
-
+import base64
+import io
+import qrcode
 
 class Intervention(models.Model):
     _name = 'intervention.management'
@@ -13,7 +13,13 @@ class Intervention(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = "date_creation_intervention desc"
 
-    reference=fields.Char(string='Reference de l\'intervention',required=True)
+    reference = fields.Char(
+        string="Référence",
+        readonly=True,
+        copy=False,
+        default="Nouveau",
+        tracking=True
+    )
     name=fields.Char(string='Name',required=True,tracking=True)
     description=fields.Text(string='Description')
     client_id=fields.Many2one('res.partner',string='Client',required=True) # is a contact
@@ -53,6 +59,33 @@ class Intervention(models.Model):
     cout_total = fields.Monetary(currency_field='currency_id')
     signature_client=fields.Binary(string="Signature du client")
     signature_technicien=fields.Binary(string="Signature du technicien ")
+
+    sla = fields.Selection([
+        ('24', '24 heures'),
+        ('48', '48 heures'),
+        ('72', '72 heures'),
+    ], string="SLA", default='48', tracking=True)
+
+    deadline = fields.Datetime(
+        string="Date limite",
+        compute="_compute_deadline",
+        store=True
+    )
+
+    sla_respecte = fields.Boolean(
+        string="SLA respecté",
+        compute="_compute_deadline",
+        store=True
+    )
+
+    qr_code = fields.Binary(
+        compute="_compute_qr_code"
+    )
+
+    equipement_id = fields.Many2one(
+        "equipement.management",
+        string="Équipement"
+    )
 
     @api.constrains('date_intervention', 'date_demande')
     def _check_date_intervention(self):
@@ -101,6 +134,7 @@ class Intervention(models.Model):
             if rec.technicien_id.intervention_count >= 3:
                 raise ValidationError("Technicien surcharge")
 
+    """
     @api.depends('start_date', 'end_date')
     def _compute_resolution_time(self):
         for rec in self:
@@ -110,7 +144,7 @@ class Intervention(models.Model):
             else:
                 rec.resolution_time = 0
 
-    """   """
+    """
 
    
     @api.depends("date_creation_intervention","date_resolution_intervention")
@@ -155,7 +189,6 @@ class Intervention(models.Model):
             "target": "new",
         }
 
-
     def action_localiser(self):
         self.ensure_one()
 
@@ -183,3 +216,35 @@ class Intervention(models.Model):
         self.latitude = float(data[0]["lat"])
         self.longitude = float(data[0]["lon"])
 
+    @api.depends("date_creation_intervention", "sla", "date_resolution_intervention")
+    def _compute_deadline(self):
+        for rec in self:
+            rec.deadline = False
+            rec.sla_respecte = False
+
+            if rec.date_creation_intervention:
+                heures = int(rec.sla or 48)
+
+                rec.deadline = fields.Datetime.add(
+                    rec.date_creation_intervention,
+                    hours=heures
+                )
+
+                if rec.date_resolution_intervention:
+                    rec.sla_respecte = (
+                        rec.date_resolution_intervention <= rec.deadline
+                    )
+
+    @api.depends("reference")
+    def _compute_qr_code(self):
+        for rec in self:
+            if not rec.reference:
+                rec.qr_code = False
+                continue
+
+            qr = qrcode.make(rec.reference)
+
+            buffer = io.BytesIO()
+            qr.save(buffer, format="PNG")
+
+            rec.qr_code = base64.b64encode(buffer.getvalue())

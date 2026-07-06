@@ -1,0 +1,15 @@
+<odoo>
+
+    <record id="seq_intervention" model="ir.sequence">
+
+        <field name="name">Intervention</field>
+
+        <field name="code">intervention.management</field>
+
+        <field name="prefix">INT-</field>
+
+        <field name="padding">5</field>
+
+    </record>
+
+</odoo>
