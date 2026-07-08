@@ -24,4 +24,13 @@
         action="action_competence"
         parent="menu_intervention_root"
     />
+
+    <menuitem
+        id="menu_equipement"
+        name="Équipements"
+        parent="menu_intervention_root"
+        action="action_equipement"
+        sequence="20"
+    />
+
 </odoo>

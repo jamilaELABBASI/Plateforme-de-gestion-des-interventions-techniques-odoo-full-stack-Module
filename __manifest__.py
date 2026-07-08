@@ -36,7 +36,8 @@ Long description of module's purpose
         'views/intervention/intervention.xml',
         'views/report/intervention_report.xml',
         'views/report/intervention_report_template.xml',
-        'data/sequence_intervention.xml'
+        'views/intervention/intervention_sequence.xml',
+
         'views/technicien/technicien.xml',
         'views/technicien/technicien_graph.xml',
         'views/technicien/technicien_pivot.xml',
@@ -45,6 +46,12 @@ Long description of module's purpose
 
         'views/competence/competence.xml',
         'views/competence/competence_actions.xml',
+
+        'views/equipement/equipement.xml',
+        'views/equipement/equipement_actions.xml',
+        'views/equipement/equipement_sequence.xml',
+
+
         'views/menu.xml',
     ],
     'installable': True,

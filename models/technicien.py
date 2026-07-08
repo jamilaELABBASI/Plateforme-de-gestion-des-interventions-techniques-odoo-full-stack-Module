@@ -6,8 +6,8 @@ class Technicien(models.Model):
     _description = 'technicien'
 
     name=fields.Char(string='Nom du technicien',required=True)
-    email=fields.Char(string='Nom du technicien')
-    phone=fields.Char(string='Nom du technicien',required=True)
+    email=fields.Char(string='Email du technicien')
+    phone=fields.Char(string='Numero de telephone',required=True)
     address=fields.Char(required=True)
     competences=fields.Many2many(
         "competence.management",

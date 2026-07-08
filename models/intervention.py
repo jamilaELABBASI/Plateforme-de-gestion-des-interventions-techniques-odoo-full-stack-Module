@@ -1,4 +1,5 @@
 from email.policy import default
+from io import BytesIO
 from urllib.parse import quote
 import requests
 from odoo import models, fields, api
@@ -78,26 +79,22 @@ class Intervention(models.Model):
         store=True
     )
 
-    qr_code = fields.Binary(
-        compute="_compute_qr_code"
-    )
-
     equipement_id = fields.Many2one(
         "equipement.management",
         string="Équipement"
     )
 
-    @api.constrains('date_intervention', 'date_demande')
+    @api.constrains("date_creation_intervention", "date_resolution_intervention")
     def _check_date_intervention(self):
-        now = fields.Datetime.now()
-
         for rec in self:
-
-            if rec.date_intervention and rec.date_intervention < now:
-                raise ValidationError("La date d'intervention ne peut pas être dans le passé.")
-
-            if (rec.date_intervention and rec.date_demande and rec.date_intervention < rec.date_demande):
-                raise ValidationError("La date d'intervention doit être supérieure ou égale à la date de demande.")
+            if (
+                    rec.date_creation_intervention
+                    and rec.date_resolution_intervention
+                    and rec.date_resolution_intervention < rec.date_creation_intervention
+            ):
+                raise ValidationError(
+                    "La date de résolution doit être supérieure ou égale à la date de création."
+                )
 
     def statut_encours(self):
         self.statut="en_cours"
@@ -235,16 +232,3 @@ class Intervention(models.Model):
                         rec.date_resolution_intervention <= rec.deadline
                     )
 
-    @api.depends("reference")
-    def _compute_qr_code(self):
-        for rec in self:
-            if not rec.reference:
-                rec.qr_code = False
-                continue
-
-            qr = qrcode.make(rec.reference)
-
-            buffer = io.BytesIO()
-            qr.save(buffer, format="PNG")
-
-            rec.qr_code = base64.b64encode(buffer.getvalue())

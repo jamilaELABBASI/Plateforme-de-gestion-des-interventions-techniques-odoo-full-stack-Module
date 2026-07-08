@@ -1,0 +1,108 @@
+<odoo>
+
+    <!-- Liste -->
+    <record id="view_equipement_tree" model="ir.ui.view">
+        <field name="name">equipement.management.list</field>
+        <field name="model">equipement.management</field>
+        <field name="arch" type="xml">
+            <list string="Équipements">
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="categorie"/>
+                <field name="marque"/>
+                <field name="modele"/>
+                <field name="garantie_active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Formulaire -->
+    <record id="view_equipement_form" model="ir.ui.view">
+        <field name="name">equipement.management.form</field>
+        <field name="model">equipement.management</field>
+        <field name="arch" type="xml">
+
+            <form string="Équipement">
+
+                <sheet>
+
+                    <group>
+
+                        <group>
+                            <field name="reference" readonly="1"/>
+                            <field name="name"/>
+                            <field name="client_id"/>
+                            <field name="categorie"/>
+                        </group>
+
+                        <group>
+                            <field name="marque"/>
+                            <field name="modele"/>
+                            <field name="numero_serie"/>
+                        </group>
+
+                    </group>
+
+                    <group>
+
+                        <group>
+                            <field name="date_achat"/>
+                            <field name="date_fin_garantie"/>
+                            <field name="garantie_active" readonly="1"/>
+                        </group>
+                         <group>
+                            <field name="photo" />
+                            <field name="qr_code" widget="image" readonly="1"/>
+                        </group>
+
+                    </group>
+
+                    <notebook>
+
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+
+                        <page string="Documents">
+                            <field name="attachment_ids"
+                                   widget="many2many_binary"/>
+                        </page>
+
+                        <page string="Interventions">
+                            <field name="intervention_ids"/>
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+    <!-- Recherche -->
+    <record id="view_equipement_search" model="ir.ui.view">
+        <field name="name">equipement.management.search</field>
+        <field name="model">equipement.management</field>
+        <field name="arch" type="xml">
+
+            <search>
+
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="client_id"/>
+
+                <filter string="Garantie active"
+                        name="garantie"
+                        domain="[('garantie_active','=',True)]"/>
+
+            </search>
+
+        </field>
+    </record>
+
+
+
+</odoo>
