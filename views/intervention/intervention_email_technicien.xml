@@ -1,0 +1,37 @@
+<odoo>
+
+    <record id="email_template_intervention_technicien" model="mail.template">
+        <field name="name">Notification Intervention Technicien</field>
+        <field name="model_id" ref="model_intervention_management"/>
+        <field name="subject">Nouvelle intervention : {{ object.reference }}</field>
+
+        <field name="email_from">{{ user.email or '' }}</field>
+        <field name="email_to">{{ object.technicien_id.email }}</field>
+
+        <field name="body_html" type="html">
+            <![CDATA[
+            <div>
+                <p>Bonjour <strong>{{ object.technicien_id.name }}</strong>,</p>
+
+                <p>Une nouvelle intervention vous a été affectée.</p>
+
+                <ul>
+                    <li><strong>Référence :</strong> {{ object.reference }}</li>
+                    <li><strong>Client :</strong> {{ object.client_id.name }}</li>
+                    <li><strong>Équipement :</strong> {{ object.equipement_id.name }}</li>
+                    <li><strong>Priorité :</strong> {{ object.priorite }}</li>
+                </ul>
+
+                <p>Merci de consulter votre espace Odoo.</p>
+
+                <br/>
+
+                <p>Cordialement,</p>
+                <p><strong>Service Technique</strong></p>
+            </div>
+            ]]>
+        </field>
+
+    </record>
+
+</odoo>

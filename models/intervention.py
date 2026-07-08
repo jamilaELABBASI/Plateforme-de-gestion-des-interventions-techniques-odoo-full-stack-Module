@@ -232,3 +232,36 @@ class Intervention(models.Model):
                         rec.date_resolution_intervention <= rec.deadline
                     )
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+
+        template_client = self.env.ref(
+            "intervention_management.email_template_intervention_client",
+            raise_if_not_found=False
+        )
+
+        template_technicien = self.env.ref(
+            "intervention_management.email_template_intervention_technicien",
+            raise_if_not_found=False
+        )
+
+        for record in records:
+
+            # Email client
+            if (
+                    template_client
+                    and record.client_id
+                    and record.client_id.email
+            ):
+                template_client.send_mail(record.id, force_send=True)
+
+            # Email technicien
+            if (
+                    template_technicien
+                    and record.technicien_id
+                    and record.technicien_id.email
+            ):
+                template_technicien.send_mail(record.id, force_send=True)
+
+        return records
