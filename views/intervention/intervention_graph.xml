@@ -4,8 +4,8 @@
         <field name="name">intervention.graph</field>
         <field name="model">intervention.management</field>
         <field name="arch" type="xml">
-            <graph string="Interventions" type="pie">
-                <field name="statut" type="row"/>
+            <graph string="Interventions by status" type="pie">
+                <field name="state" type="row"/>
                 <field name="id" type="measure"/>
             </graph>
         </field>

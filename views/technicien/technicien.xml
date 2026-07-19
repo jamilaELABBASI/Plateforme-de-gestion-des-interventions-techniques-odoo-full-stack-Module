@@ -33,7 +33,7 @@
                             <field name="intervention_ids">
                                 <list>
                                     <field name="name"/>
-                                    <field name="statut"/>
+                                    <field name="state"/>
                                 </list>
                             </field>
                         </page>

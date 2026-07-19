@@ -37,6 +37,8 @@ Long description of module's purpose
         'views/report/intervention_report.xml',
         'views/report/intervention_report_template.xml',
         'views/intervention/intervention_sequence.xml',
+        'views/intervention/intervention_email_technicien.xml',
+        'views/intervention/intervention_email_client.xml',
 
         'views/technicien/technicien.xml',
         'views/technicien/technicien_graph.xml',

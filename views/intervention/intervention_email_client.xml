@@ -1,91 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
-    <record id="email_template_intervention_client" model="mail.template">
-        <field name="name">Confirmation intervention client</field>
-
+    <record id="intervention_email_client" model="mail.template">
+        <field name="name">Test</field>
         <field name="model_id" ref="model_intervention_management"/>
-
-        <field name="subject">
-            Confirmation de votre demande d'intervention {{ object.reference }}
-        </field>
-
-        <field name="email_from">
-            {{ user.email_formatted }}
-        </field>
-
-        <field name="email_to">
-            {{ object.client_id.email }}
-        </field>
-
-        <field name="body_html" type="html">
+        <field name="subject">Confirmation d'intervention : ${object.reference}</field>
+        <field name="email_from">${user.email_formatted}</field>
+        <field name="email_to">${object.client_id.email}</field>
+        <field name="body_html">
             <![CDATA[
-                <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;">
-
-                <p>Bonjour <strong>{{ object.client_id.name }}</strong>,</p>
-
-                <p>
-                Nous vous remercions pour votre confiance.
-                Votre demande d'intervention a bien été enregistrée.
-                </p>
-
-                <table style="border-collapse:collapse;">
-
-                <tr>
-                    <td><strong>Référence :</strong></td>
-                    <td>{{ object.reference }}</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Équipement :</strong></td>
-                    <td>{{ object.equipement_id.name }}</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Priorité :</strong></td>
-                    <td>{{ object.priorite }}</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Date de création :</strong></td>
-                    <td>{{ object.date_creation_intervention }}</td>
-                </tr>
-
-                {% if object.technicien_id %}
-                <tr>
-                    <td><strong>Technicien :</strong></td>
-                    <td>{{ object.technicien_id.name }}</td>
-                </tr>
-                {% endif %}
-
-                </table>
-
-                <br/>
-
-                <p>
-                Votre demande est actuellement prise en charge par notre service technique.
-                Nous vous informerons dès qu'un technicien sera planifié.
-                </p>
-
-                <br/>
-
-                <p>
-                Cordialement,
-                </p>
-
-                <p>
-                <strong>Service Gestion des Interventions</strong><br/>
-                Entreprise XYZ<br/>
-                Téléphone : +212 XX XX XX XX XX<br/>
-                Email : contact@entreprise.ma
-                </p>
-
-                </div>
+                <p>Bonjour ${object.client_id.name},</p>
+                <p>Votre demande d'intervention a bien été enregistrée.</p>
+                <ul>
+                    <li><b>Référence :</b> ${object.reference}</li>
+                    <li><b>Technicien :</b> ${object.technicien_id.name}</li>
+                </ul>
+                <p>Nous vous contacterons dès que possible.</p>
+                <p>Cordialement,<br/>
+                Service Gestion des Interventions</p>
             ]]>
         </field>
-
-        <field name="auto_delete" eval="True"/>
-
     </record>
-
 </odoo>

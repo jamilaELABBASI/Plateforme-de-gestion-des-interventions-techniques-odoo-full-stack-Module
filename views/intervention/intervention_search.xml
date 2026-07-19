@@ -1,45 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <record id="intervention_search" model="ir.ui.view">
         <field name="name">intervention.search</field>
         <field name="model">intervention.management</field>
         <field name="arch" type="xml">
-
             <search>
-
-            <!-- Champs de recherche -->
-            <field name="name" string="Nom"/>
-            <field name="technicien_id"/>
-            <field name="client_id"/>
-
-            <!-- Filtres -->
-
-            <filter name="filter_nouveau"
-                    string="Nouveau"
-                    domain="[('statut','=','nouveau')]"/>
-
-            <filter name="filter_encours"
-                    string="En cours"
-                    domain="[('statut','=','en_cours')]"/>
-
-            <filter name="filter_terminee"
-                    string="Terminee"
-                    domain="[('statut','=','terminee')]"/>
-
-            <filter name="filter_today"
-                    string="Aujourd hui"
-                    domain="[('date_creation_intervention','=',context_today())]"/>
-
-            <filter name="recent"
-                    string="Plus recent"
-                    domain="[]"
-                    context="{'order':'date_creation_intervention desc'}"
-            />
-
-            <filter name="old"
-                    string="Plus ancien"
-                    context="{'order':'date_creation_intervention asc'}"
-            />
-        </search>
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="client_id"/>
+                <field name="technicien_id"/>
+                
+                <filter name="filter_draft" string="Draft" domain="[('state','=','draft')]"/>
+                <filter name="filter_assigned" string="Assigned" domain="[('state','=','assigned')]"/>
+                <filter name="filter_in_progress" string="In Progress" domain="[('state','=','in_progress')]"/>
+                <filter name="filter_done" string="Done" domain="[('state','=','done')]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('state','=','cancelled')]"/>
+            </search>
         </field>
     </record>
 </odoo>

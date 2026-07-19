@@ -1,27 +1,5 @@
 <odoo>
 
-    <record id="intervention_list" model="ir.ui.view">
-        <field name="name">intervention.list</field>
-        <field name="model">intervention.management</field>
-        <field name="arch" type="xml">
-
-            <list decoration-success="priorite == 'basse'"
-                  decoration-warning="priorite == 'moyenne'"
-                  decoration-danger="is_late == True">
-                <field name="name"/>
-                <field name="cost"/>
-                <field name="description"/>
-                <field name="date_creation_intervention"/>
-                <field name="date_resolution_intervention" invisible="statut != 'terminee'"/>
-                <field name="statut" widget="badge"/>
-                <field name="priorite" widget="priority"/>
-                <field name="technicien_id"/>
-                <field name="client_id"/>
-                <field name="comment"/>
-            </list>
-        </field>
-    </record>
-
     <record id="intervention_form" model="ir.ui.view">
         <field name="name">intervention.form</field>
         <field name="model">intervention.management</field>
@@ -29,25 +7,27 @@
             <form class="form_intervention">
 
                 <header>
-                    <field name="statut" widget="statusbar" statusbar_visible="en_cours,terminee,annulee"/>
-                    <button class="button" name="statut_encours" string="Démarrer" type="object" invisible="not id or statut in ('en_cours','terminee','annulee')"/>
-                    <button class="button" name="statut_terminee" string="Terminer" type="object" invisible="not id  or statut in ('terminee','annulee')"/> <!-- or statut in ('nouveau','annulee') -->
-                    <button class="button" name="statut_annulee" string="Annuler" type="object" invisible="not id or statut in ('annulee') "/>
+
+<!--                    <button name="action_send_email" string="📧 Envoyer Email" type="object" class="btn-primary" invisible="not technicien_id"/>-->
+                    <field name="state" widget="statusbar" statusbar_visible="en_cours,terminee,annulee"/>
+                    <button class="button" name="action_in_progress" string="Démarrer" type="object" invisible="not id or state in ('en_cours','terminee','annulee')"/>
+                    <button class="button" name="action_done" string="Terminer" type="object" invisible="not id  or state in ('terminee','annulee')"/> <!-- or statut in ('nouveau','annulee') -->
+                    <button class="button" name="action_cancel" string="Annuler" type="object" invisible="not id or state in ('annulee') "/>
                 </header>
 
                 <sheet>
-                    <group string="Statistiques">
-                        <field name="total_interventions" readonly="1"/>
-                        <field name="interventions_nouveaus" readonly="1"/>
-                        <field name="interventions_terminees" readonly="1"/>
-                        <field name="interventions_en_cours" readonly="1"/>
-                        <field name="interventions_annulee" readonly="1"/>
-                    </group>
+<!--                    <group string="Statistiques">-->
+<!--                        <field name="total_interventions" readonly="1"/>-->
+<!--                        <field name="interventions_nouveaus" readonly="1"/>-->
+<!--                        <field name="interventions_terminees" readonly="1"/>-->
+<!--                        <field name="interventions_en_cours" readonly="1"/>-->
+<!--                        <field name="interventions_annulee" readonly="1"/>-->
+<!--                    </group>-->
                     <group string="Information" class="center_group_title" >
                         <field name="name"/>
                         <field name="description"/>
                         <field name="priorite" widget="priority" />
-                        <field name="statut"  />
+                        <field name="state"  />
                         <field name="resolution_time"/>
                         <field name="estimated_time"/>
                         <field name="cost"/>
@@ -60,13 +40,13 @@
                         <field name="date_resolution_intervention"/>
                     </group>
 
-                    <group string="Suivi technicien" class="center_group_title" invisible="statut != 'terminee'">
-                        <field name="comment" required="statut == 'terminee'"/>
+                    <group string="Suivi technicien" class="center_group_title" invisible="state != 'terminee'">
+                        <field name="comment" required="state == 'terminee'"/>
                     </group>
 
                     <group string="photo" class="center_group_title">
                         <field name="before_picture" required="True"/>
-                        <field name="after_picture" invisible="statut != 'terminee'" required="statut=='terminee'"/>
+                        <field name="after_picture" invisible="state != 'terminee'" required="state=='terminee'"/>
                     </group>
 
                     <group class="center_group_title">
@@ -87,6 +67,25 @@
         </field>
     </record>
 
-
+     <record id="intervention_list" model="ir.ui.view">
+        <field name="name">intervention.list</field>
+        <field name="model">intervention.management</field>
+        <field name="arch" type="xml">
+            <list decoration-success="priorite == 'basse'"
+                  decoration-warning="priorite == 'moyenne'"
+                  decoration-danger="is_late == True">
+                <field name="name"/>
+                <field name="cost"/>
+                <field name="description"/>
+                <field name="date_creation_intervention"/>
+                <field name="date_resolution_intervention" invisible="state != 'terminee'"/>
+                <field name="state" widget="badge"/>
+                <field name="priorite" widget="priority"/>
+                <field name="technicien_id"/>
+                <field name="client_id"/>
+                <field name="comment"/>
+            </list>
+        </field>
+    </record>
 
 </odoo>

@@ -7,8 +7,8 @@ class Technicien(models.Model):
 
     name=fields.Char(string='Nom du technicien',required=True)
     email=fields.Char(string='Email du technicien')
-    phone=fields.Char(string='Numero de telephone',required=True)
-    address=fields.Char(required=True)
+    address = fields.Char(string="Address", required=False, default="")
+    phone = fields.Char(string="Phone", required=False, default="")
     competences=fields.Many2many(
         "competence.management",
         "technicien_competence",
@@ -23,7 +23,7 @@ class Technicien(models.Model):
         "Interventions")
     score_performance=fields.Float(compute="_compute_score")
     intervention_count=fields.Integer(compute="_compute_intervention_count")
-
+    user_id = fields.Many2one('res.users', string="User", help="Linked user account")
     @api.depends('intervention_ids')
     def _compute_intervention_count(self):
         for rec in self:

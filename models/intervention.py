@@ -8,6 +8,7 @@ import base64
 import io
 import qrcode
 
+
 class Intervention(models.Model):
     _name = 'intervention.management'
     _description = 'Intervention'
@@ -21,45 +22,45 @@ class Intervention(models.Model):
         default="Nouveau",
         tracking=True
     )
-    name=fields.Char(string='Name',required=True,tracking=True)
-    description=fields.Text(string='Description')
-    client_id=fields.Many2one('res.partner',string='Client',required=True) # is a contact
-    address=fields.Char(string='Adresse',required=True)
-    date_creation_intervention=fields.Datetime(string="Date de demande",default=fields.Datetime.now,readonly=True)
-    date_resolution_intervention=fields.Datetime(string='Date de l\'intervention')
-    statut = fields.Selection([
+    name = fields.Char(string='Name', required=True, tracking=True)
+    description = fields.Text(string='Description')
+    client_id = fields.Many2one('res.partner', string='Client', required=True)  # is a contact
+    address = fields.Char(string='Adresse', required=True)
+    date_creation_intervention = fields.Datetime(string="Date de demande", default=fields.Datetime.now, readonly=True)
+    date_resolution_intervention = fields.Datetime(string='Date de l\'intervention')
+    state = fields.Selection([
         ('nouveau', 'Nouveau'),
         ('en_cours', 'En cours'),
         ('terminee', 'Terminée'),
         ('annulee', 'Annulée'),
-    ],default='nouveau',tracking=True)
-    priorite=fields.Selection([
+    ], default='nouveau', tracking=True)
+    priorite = fields.Selection([
         ("basse", "Basse"),
         ("moyenne", "Moyenne"),
         ("haute", "Haute")
-    ],string='Priorit de l\'intervention',default='moyenne',tracking=True)
+    ], string='Priorit de l\'intervention', default='moyenne', tracking=True)
     technicien_id = fields.Many2one(
         'technicien.management',
         string="Technicien")  # user of system has a login and pwd and access rights
-    comment=fields.Text(string='Commentaire')
-    start_date = fields.Datetime(string="Date debut",default=fields.Datetime.now)
+    comment = fields.Text(string='Commentaire')
+    start_date = fields.Datetime(string="Date debut", default=fields.Datetime.now)
     end_date = fields.Datetime(string="Date fin")
-    is_late=fields.Boolean(string="En retard",compute="_compute_is_late",store=True)
-    estimated_time=fields.Float()
-    resolution_time=fields.Float(compute="_compute_resolution_time",store=True)
-    currency_id = fields.Many2one('res.currency', string="Devise" , default=lambda self: self.env.company.currency_id)
+    is_late = fields.Boolean(string="En retard", compute="_compute_is_late", store=True)
+    estimated_time = fields.Float()
+    resolution_time = fields.Float(compute="_compute_resolution_time", store=True)
+    currency_id = fields.Many2one('res.currency', string="Devise", default=lambda self: self.env.company.currency_id)
     cost = fields.Monetary(currency_field='currency_id')
-    before_picture=fields.Image()
-    after_picture=fields.Image()
-    total_interventions=fields.Integer(compute="_compute_kpis",store=True)
-    interventions_nouveaus=fields.Integer()
-    interventions_terminees=fields.Integer()
-    interventions_en_cours=fields.Integer()
-    interventions_annulee=fields.Integer()
+    before_picture = fields.Image()
+    after_picture = fields.Image()
+    total_interventions = fields.Integer(compute="_compute_kpis", store=True)
+    interventions_nouveaus = fields.Integer()
+    interventions_terminees = fields.Integer()
+    interventions_en_cours = fields.Integer()
+    interventions_annulee = fields.Integer()
     temps_moyen_resolution = fields.Float()
     cout_total = fields.Monetary(currency_field='currency_id')
-    signature_client=fields.Binary(string="Signature du client")
-    signature_technicien=fields.Binary(string="Signature du technicien ")
+    signature_client = fields.Binary(string="Signature du client")
+    signature_technicien = fields.Binary(string="Signature du technicien ")
 
     sla = fields.Selection([
         ('24', '24 heures'),
@@ -96,16 +97,16 @@ class Intervention(models.Model):
                     "La date de résolution doit être supérieure ou égale à la date de création."
                 )
 
-    def statut_encours(self):
-        self.statut="en_cours"
+    def action_in_progress(self):
+        self.state = "en_cours"
 
-    def statut_terminee(self):
-        self.statut="terminee"
+    def action_done(self):
+        self.state = "terminee"
         # if not self.rapport:
         #     raise ValidationError("le rapport est obligatoire")
 
-    def statut_annulee(self):
-        self.statut="annulee"
+    def action_cancel(self):
+        self.state = "annulee"
 
     @api.onchange("end_date")
     def _compute_is_late(self):
@@ -113,8 +114,7 @@ class Intervention(models.Model):
             rec.is_late = (
                     rec.end_date
                     and rec.end_date < fields.Datetime.now()
-                    and rec.statut != "terminee")
-
+                    and rec.state != "terminee")
 
     @api.depends("is_late")
     def _notify_if_late(self):
@@ -122,13 +122,12 @@ class Intervention(models.Model):
             if rec.is_late:
                 rec.message_post(body="cette intervention est en retard")
 
-
     @api.constrains('technicien_id')
     def _check_disponibilite(self):
         for rec in self:
             if not rec.technicien_id:
                 continue
-            if rec.technicien_id.intervention_count >= 3:
+            if rec.technicien_id.intervention_count > 3:
                 raise ValidationError("Technicien surcharge")
 
     """
@@ -143,12 +142,11 @@ class Intervention(models.Model):
 
     """
 
-   
-    @api.depends("date_creation_intervention","date_resolution_intervention")
+    @api.depends("date_creation_intervention", "date_resolution_intervention")
     def _compute_resolution_time(self):
         for rec in self:
             if rec.date_creation_intervention and rec.date_resolution_intervention:
-                delta=rec.date_creation_intervention - rec.date_resolution_intervention
+                delta = rec.date_creation_intervention - rec.date_resolution_intervention
                 rec.resolution_time = delta.total_seconds() / 3600
             else:
                 rec.resolution_time = 0
@@ -157,16 +155,16 @@ class Intervention(models.Model):
         for rec in self:
             rec.total_interventions = self.env['intervention.management'].search_count([])
             rec.interventions_nouveaus = self.env['intervention.management'].search_count(
-                [('statut', '=', 'nouveau')]
+                [('state', '=', 'nouveau')]
             )
             rec.interventions_terminees = self.env['intervention.management'].search_count(
-                [('statut', '=', 'terminee')]
+                [('state', '=', 'terminee')]
             )
             rec.interventions_en_cours = self.env['intervention.management'].search_count(
-                [('statut', '=', 'en_cours')]
+                [('state', '=', 'en_cours')]
             )
             rec.interventions_annulee = self.env['intervention.management'].search_count(
-                [('statut', '=', 'annulee')]
+                [('state', '=', 'annulee')]
             )
 
     def ouvrir_maps(self):
@@ -229,39 +227,155 @@ class Intervention(models.Model):
 
                 if rec.date_resolution_intervention:
                     rec.sla_respecte = (
-                        rec.date_resolution_intervention <= rec.deadline
+                            rec.date_resolution_intervention <= rec.deadline
                     )
 
     @api.model_create_multi
     def create(self, vals_list):
         records = super().create(vals_list)
-
-        template_client = self.env.ref(
-            "intervention_management.email_template_intervention_client",
-            raise_if_not_found=False
-        )
-
-        template_technicien = self.env.ref(
-            "intervention_management.email_template_intervention_technicien",
-            raise_if_not_found=False
-        )
-
         for record in records:
+            # Envoyer l'email au technicien si assigné
+            if record.technicien_id and record.technicien_id.email:
+                template_technicien = self.env.ref('intervention_management.intervention_email_technicien',
+                                        raise_if_not_found=False)
 
-            # Email client
-            if (
-                    template_client
-                    and record.client_id
-                    and record.client_id.email
-            ):
-                template_client.send_mail(record.id, force_send=True)
+                template_client = self.env.ref(
+                        "intervention_management.intervention_email_client",
+                        raise_if_not_found=False)
 
-            # Email technicien
-            if (
-                    template_technicien
-                    and record.technicien_id
-                    and record.technicien_id.email
-            ):
-                template_technicien.send_mail(record.id, force_send=True)
-
+                if template_technicien:
+                    template_technicien.send_mail(record.id, force_send=True)
+                    record.message_post(
+                        body=f"📧 Email envoyé à {record.technicien_id.name} ({record.technicien_id.email})",
+                        message_type='notification'
+                    )
+                if template_client:
+                    template_client.send_mail(record.id, force_send=True)
+                    record.message_post(
+                        body=f"📧 Email envoyé à {record.client_id.name} ({record.client_id.email})",
+                        message_type='notification'
+                    )
         return records
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Créer une intervention et envoyer l'email automatiquement"""
+        records = super().create(vals_list)
+        for record in records:
+            # Envoyer l'email automatiquement
+            record._send_email_notification()
+        return records
+
+    def write(self, vals):
+        """Mettre à jour une intervention et envoyer l'email si le technicien change"""
+        result = super().write(vals)
+
+        # Si le technicien a été modifié, envoyer l'email
+        if 'technicien_id' in vals:
+            for record in self:
+                if record.technicien_id and record.technicien_id.email:
+                    record._send_email_notification()
+
+        return result
+
+
+    def _send_email_notification(self):
+        """Envoyer l'email au technicien et au client (méthode interne)"""
+        self.ensure_one()
+
+        # 1. Envoyer au technicien
+        if self.technicien_id and self.technicien_id.email:
+            try:
+                mail = self.env['mail.mail'].create({
+                    'subject': f'Nouvelle intervention : {self.reference}',
+                    'body_html': f"""
+                        <h2>Nouvelle intervention</h2>
+                        <p>Bonjour {self.technicien_id.name},</p>
+                        <p>Une nouvelle intervention vous a été affectée.</p>
+                        <ul>
+                            <li><b>Référence :</b> {self.reference}</li>
+                            <li><b>Client :</b> {self.client_id.name if self.client_id else 'Non spécifié'}</li>
+                            <li><b>Description :</b> {self.description or 'Aucune description'}</li>
+                        </ul>
+                        <p>Cordialement,<br/>Service Gestion des Interventions</p>
+                    """,
+                    'email_to': self.technicien_id.email,
+                    'email_from': 'mega.cours.jamila@gmail.com',
+                })
+                mail.send()
+                self.message_post(
+                    body=f"📧 Email envoyé au technicien {self.technicien_id.name} ({self.technicien_id.email})",
+                    message_type='notification'
+                )
+            except Exception as e:
+                self.message_post(
+                    body=f"❌ Erreur technicien: {str(e)}",
+                    message_type='notification'
+                )
+
+        # 2. Envoyer au client
+        if self.client_id and self.client_id.email:
+            try:
+                mail = self.env['mail.mail'].create({
+                    'subject': f'Confirmation d\'intervention : {self.reference}',
+                    'body_html': f"""
+                        <h2>Confirmation d'intervention</h2>
+                        <p>Bonjour {self.client_id.name},</p>
+                        <p>Votre demande d'intervention a bien été enregistrée.</p>
+                        <ul>
+                            <li><b>Référence :</b> {self.reference}</li>
+                            <li><b>Technicien :</b> {self.technicien_id.name if self.technicien_id else 'Non assigné'}</li>
+                            <li><b>Description :</b> {self.description or 'Aucune description'}</li>
+                        </ul>
+                        <p>Nous vous contacterons dès que possible.</p>
+                        <p>Cordialement,<br/>Service Gestion des Interventions</p>
+                    """,
+                    'email_to': self.client_id.email,
+                    'email_from': 'mega.cours.jamila@gmail.com',
+                })
+                mail.send()
+                self.message_post(
+                    body=f"📧 Email envoyé au client {self.client_id.name} ({self.client_id.email})",
+                    message_type='notification'
+                )
+            except Exception as e:
+                self.message_post(
+                    body=f"❌ Erreur client: {str(e)}",
+                    message_type='notification'
+                )
+
+
+
+    # @api.model_create_multi
+    # def create(self, vals_list):
+    #     records = super().create(vals_list)
+    #
+    #     template_client = self.env.ref(
+    #         "intervention_management.email_template_intervention_client",
+    #         raise_if_not_found=False
+    #     )
+    #
+    #     template_technicien = self.env.ref(
+    #         "intervention_management.email_template_intervention_technicien",
+    #         raise_if_not_found=False
+    #     )
+    #
+    #     for record in records:
+    #
+    #         # Email client
+    #         if (
+    #                 template_client
+    #                 and record.client_id
+    #                 and record.client_id.email
+    #         ):
+    #             template_client.send_mail(record.id, force_send=True)
+    #
+    #         # Email technicien
+    #         if (
+    #                 template_technicien
+    #                 and record.technicien_id
+    #                 and record.technicien_id.email
+    #         ):
+    #             template_technicien.send_mail(record.id, force_send=True)
+    #
+    #     return records
