@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <odoo>
-    <record id="intervention_pivot_view" model="ir.ui.view">
-        <field name="name">intervention.pivot</field>
+
+    <record id="view_intervention_pivot" model="ir.ui.view">
+
+        <field name="name">intervention.management.pivot</field>
+
         <field name="model">intervention.management</field>
+
         <field name="arch" type="xml">
-            <pivot string="Interventions Analysis">
+
+            <pivot string="Analyse des interventions">
+
                 <field name="state" type="row"/>
-                <field name="client_id" type="col"/>
-                <field name="id" type="measure"/>
+
+                <field name="priorite" type="col"/>
+
             </pivot>
+
         </field>
+
     </record>
+
 </odoo>

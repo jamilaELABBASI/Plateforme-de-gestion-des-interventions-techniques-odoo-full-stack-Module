@@ -1,12 +1,8 @@
-from email.policy import default
-from io import BytesIO
 from urllib.parse import quote
 import requests
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError, UserError
-import base64
-import io
-import qrcode
+
 
 
 class Intervention(models.Model):
@@ -39,6 +35,7 @@ class Intervention(models.Model):
         ("moyenne", "Moyenne"),
         ("haute", "Haute")
     ], string='Priorit de l\'intervention', default='moyenne', tracking=True)
+
     technicien_id = fields.Many2one(
         'technicien.management',
         string="Technicien")  # user of system has a login and pwd and access rights
@@ -129,6 +126,15 @@ class Intervention(models.Model):
                 continue
             if rec.technicien_id.intervention_count > 3:
                 raise ValidationError("Technicien surcharge")
+
+    @api.model
+    def create(self, vals):
+
+        if vals.get('reference', 'Nouveau') == 'Nouveau':
+            vals['reference'] = self.env['ir.sequence'].next_by_code(
+                'intervention.management'
+            )
+        return super().create(vals)
 
     """
     @api.depends('start_date', 'end_date')
@@ -278,7 +284,6 @@ class Intervention(models.Model):
 
         return result
 
-
     def _send_email_notification(self):
         """Envoyer l'email au technicien et au client (méthode interne)"""
         self.ensure_one()
@@ -343,7 +348,6 @@ class Intervention(models.Model):
                     body=f"❌ Erreur client: {str(e)}",
                     message_type='notification'
                 )
-
 
 
     # @api.model_create_multi

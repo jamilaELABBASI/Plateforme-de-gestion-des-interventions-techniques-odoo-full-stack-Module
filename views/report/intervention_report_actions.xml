@@ -39,7 +39,7 @@
                         <tr>
                             <td style="font-weight:bold;">Statut :</td>
                             <td>
-                                <span t-field="doc.statut"/>
+                                <span t-field="doc.state"/>
                             </td>
                         </tr>
                     </table>

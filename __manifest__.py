@@ -35,7 +35,7 @@ Long description of module's purpose
         'views/intervention/intervention_pivot.xml',
         'views/intervention/intervention.xml',
         'views/report/intervention_report.xml',
-        'views/report/intervention_report_template.xml',
+        'views/report/intervention_report_actions.xml',
         'views/intervention/intervention_sequence.xml',
         'views/intervention/intervention_email_technicien.xml',
         'views/intervention/intervention_email_client.xml',
