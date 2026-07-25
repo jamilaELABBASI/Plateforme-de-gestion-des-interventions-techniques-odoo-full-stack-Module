@@ -82,6 +82,8 @@ class Intervention(models.Model):
         string="Équipement"
     )
 
+    calendar_event_id=fields.Many2one("calendar.event",string="Evenement")
+
     @api.constrains("date_creation_intervention", "date_resolution_intervention")
     def _check_date_intervention(self):
         for rec in self:
@@ -348,6 +350,22 @@ class Intervention(models.Model):
                     body=f"❌ Erreur client: {str(e)}",
                     message_type='notification'
                 )
+
+    def action_create_calendar_event(self):
+        for intervention in self:
+            event=self.env['calendar.event'].create({
+                'name': intervention.name,
+                'start': intervention.start_date,
+                'stop': intervention.end_date,
+                'partner_ids':[
+                    (4,intervention.client_id.id),
+                ]
+            })
+
+            intervention.calendar_event_id=event.id
+
+
+
 
 
     # @api.model_create_multi

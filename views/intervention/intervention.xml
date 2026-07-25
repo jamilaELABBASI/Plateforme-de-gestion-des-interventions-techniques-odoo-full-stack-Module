@@ -7,7 +7,7 @@
             <form class="form_intervention">
 
                 <header>
-
+                    <button name="action_create_calendar_event" string="Planifier" type="object" />
 <!--                    <button name="action_send_email" string="📧 Envoyer Email" type="object" class="btn-primary" invisible="not technicien_id"/>-->
                     <field name="state" widget="statusbar" statusbar_visible="en_cours,terminee,annulee"/>
                     <button class="button" name="action_in_progress" string="Démarrer" type="object" invisible="not id or state in ('en_cours','terminee','annulee')"/>
@@ -59,6 +59,16 @@
                     <group>
                         <field name="signature_client" widget="signature"/>
                         <field name="signature_technicien" widget="signature"/>
+                    </group>
+
+                    <group string="Planification">
+
+                        <field name="start_date"/>
+
+                        <field name="end_date"/>
+
+                        <field name="calendar_event_id"/>
+
                     </group>
                 </sheet>
 
