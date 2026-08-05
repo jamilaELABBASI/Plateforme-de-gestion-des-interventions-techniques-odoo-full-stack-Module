@@ -53,6 +53,8 @@ Long description of module's purpose
         'views/equipement/equipement_actions.xml',
         'views/equipement/equipement_sequence.xml',
 
+        'views/calendar_event/calendar_event.xml',
+
 
         'views/menu.xml',
     ],

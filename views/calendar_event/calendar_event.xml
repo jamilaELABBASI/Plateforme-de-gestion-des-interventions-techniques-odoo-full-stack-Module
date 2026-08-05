@@ -1,0 +1,14 @@
+<odoo>
+    <record id="calendar_event_form_inherit_intervention" model="ir.ui.view">
+        <field name="name">calendar.event.form.inherit.intervention</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="intervention_id"/>
+                <field name="technicien_id"/>
+                <field name="client_id"/>
+            </xpath>
+        </field>
+</record>
+</odoo>

@@ -1,15 +1,10 @@
 <odoo>
-
     <record id="seq_intervention" model="ir.sequence">
-
         <field name="name">Intervention</field>
-
         <field name="code">intervention.management</field>
-
         <field name="prefix">INT-</field>
-
         <field name="padding">5</field>
-
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
     </record>
-
 </odoo>

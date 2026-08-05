@@ -3,6 +3,9 @@ import requests
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError, UserError
 
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class Intervention(models.Model):
@@ -129,14 +132,25 @@ class Intervention(models.Model):
             if rec.technicien_id.intervention_count > 3:
                 raise ValidationError("Technicien surcharge")
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Générer la référence
+        for vals in vals_list:
+            if vals.get("reference", "Nouveau") == "Nouveau":
+                vals["reference"] = (
+                        self.env["ir.sequence"].next_by_code("intervention.management")
+                        or "Nouveau"
+                )
 
-        if vals.get('reference', 'Nouveau') == 'Nouveau':
-            vals['reference'] = self.env['ir.sequence'].next_by_code(
-                'intervention.management'
-            )
-        return super().create(vals)
+        # Créer les interventions
+        records = super().create(vals_list)
+
+        # Envoyer les emails
+        for record in records:
+            record._send_email_notification()
+
+        return records
+
 
     """
     @api.depends('start_date', 'end_date')
@@ -238,6 +252,7 @@ class Intervention(models.Model):
                             rec.date_resolution_intervention <= rec.deadline
                     )
 
+    """
     @api.model_create_multi
     def create(self, vals_list):
         records = super().create(vals_list)
@@ -267,13 +282,12 @@ class Intervention(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        """Créer une intervention et envoyer l'email automatiquement"""
         records = super().create(vals_list)
         for record in records:
             # Envoyer l'email automatiquement
             record._send_email_notification()
         return records
-
+    """
     def write(self, vals):
         """Mettre à jour une intervention et envoyer l'email si le technicien change"""
         result = super().write(vals)
