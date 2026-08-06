@@ -20,6 +20,7 @@
             <form>
                 <sheet>
                     <group>
+                        <field name="user_id"/>
                         <field name="name"/>
                         <field name="email"/>
                         <field name="phone"/>
