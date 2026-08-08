@@ -80,10 +80,14 @@ class Intervention(models.Model):
         store=True
     )
 
+    latitude = fields.Float(string="Latitude")
+    longitude = fields.Float(string="Longitude")
+    
     equipement_id = fields.Many2one(
         "equipement.management",
         string="Équipement"
     )
+
 
     calendar_event_id=fields.Many2one("calendar.event",string="Evenement")
 
